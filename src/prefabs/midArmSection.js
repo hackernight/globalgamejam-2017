@@ -4,6 +4,7 @@ class MidArmSection extends Phaser.Sprite {
   //initialization code in the constructor
   constructor(game, x, y, parentAngle, sectionChildren) {
     super(game, x, y, 'midArmSection');
+    this.wobbledyFactor=16;
     this.angle = parentAngle;
     this.parentAngle = parentAngle;
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -14,7 +15,23 @@ class MidArmSection extends Phaser.Sprite {
 
   //Code ran on each frame of game
   update() {
+  	if(this.body.angularVelocity != 0) {
+  		this.body.angularVelocity += this.smallestAngle(this.parentAngle, this.angle) - (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*this.wobbledyFactor)) - Math.sign(this.body.angularVelocity) * 2;
+ 	} else {
+		this.body.angularVelocity += this.smallestAngle(this.parentAngle,this.angle);
+ 	}
+  	console.log("first: " + (this.parentAngle - this.angle));
+  	console.log("second: " + (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*8)));
+  }
 
+  smallestAngle(a1, a2) {
+  	var returnAngle = a1-a2;
+  	if(returnAngle >= 180) {
+  		return returnAngle - 360;
+  	} else if (returnAngle <= -180) {
+  		return returnAngle + 360;
+  	}
+  	return returnAngle;
   }
 
   changeBase(X,Y,parentAngle) {
