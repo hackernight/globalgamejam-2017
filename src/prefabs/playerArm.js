@@ -46,9 +46,6 @@ class PlayerArm extends Phaser.Sprite {
       this.gun.fireFrom.x = this.getTipX();
       this.gun.fireFrom.y = this.getTipY();
 
-      //console.log("X: " + this.gun.fireFrom.x);
-      //console.log("Y: " + this.gun.fireFrom.y);
-
       this.shoot();
     }
 }

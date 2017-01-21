@@ -128,6 +128,12 @@ class Game extends Phaser.State {
 
 
     shutdown() {
+        if (!!this.leftTrigger) {
+            this.leftTrigger.onDown.removeAll();
+        }
+        if (!!this.rightTrigger) {
+            this.rightTrigger.onDown.removeAll();
+        }
         this.music.stop();
     }
 
