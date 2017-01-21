@@ -2,7 +2,7 @@
 //Documentation for Phaser's (2.6.2) sprites:: phaser.io/docs/2.6.2/Phaser.Sprite.html
 class MidArmSection extends Phaser.Sprite {
   //initialization code in the constructor
-  constructor(game, x, y, parentAngle, sectionChildren) {
+  constructor(game, x, y, parentAngle, gun, shoot, sectionChildren) {
     super(game, x, y, 'midArmSection');
     this.wobbledyFactor=16;
     this.angle = parentAngle;
@@ -10,6 +10,9 @@ class MidArmSection extends Phaser.Sprite {
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
     this.anchor.setTo(.5,.5);
     this.pivot.x = -this.width/2;
+    this.gun = gun;
+    this.shoot = shoot;
+    this.sectionChildren = sectionChildren;
     this.game.add.existing(this);
   }
 
@@ -17,9 +20,9 @@ class MidArmSection extends Phaser.Sprite {
   update() {
   	if(this.body.angularVelocity != 0) {
   		this.body.angularVelocity += this.smallestAngle(this.parentAngle, this.angle) - (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*this.wobbledyFactor)) - Math.sign(this.body.angularVelocity) * 2;
- 	} else {
-		this.body.angularVelocity += this.smallestAngle(this.parentAngle,this.angle);
- 	}
+   	} else {
+  		this.body.angularVelocity += this.smallestAngle(this.parentAngle,this.angle);
+   	}
   	console.log("first: " + (this.parentAngle - this.angle));
   	console.log("second: " + (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*8)));
   }
@@ -40,6 +43,26 @@ class MidArmSection extends Phaser.Sprite {
   	this.y = Y;
   	this.parentAngle = parentAngle;
   }
+
+  getTipX() {
+    return (Math.cos(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.x;
+  }
+
+  getTipY() {
+    return (Math.sin(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.y;
+  }
+
+  fireGun() {
+      if(this.sectionChildren != 1) {
+        this.nextSection.fireGun();
+      } else {
+        this.gun.fireAngle = this.angle;
+        this.gun.fireFrom.x = this.getTipX();
+        this.gun.fireFrom.y = this.getTipY();
+
+        this.shoot();
+      }
+    }
 
 }
 

@@ -3,18 +3,21 @@ import MidArmSection from '../prefabs/midArmsection';
 class PlayerArm extends Phaser.Sprite {
     //initialization code in the constructor
 
-    constructor(game, angle, gun) {
+    constructor(game, angle, gun, shoot) {
         super(game, game.world.centerX, game.world.centerY, 'playerArm');
         this.anchor.setTo(0.5, 0.5);
         this.pivot.x = -55;
         this.angle = angle;
         this.game.add.existing(this);
         this.gun = gun;
+        this.shoot = shoot;
         this.nextSection = new MidArmSection(
           game,
           this.getTipX(),
           this.getTipY(),
           this.angle,
+          this.gun,
+          shoot,
           1
         );
 
@@ -29,7 +32,7 @@ class PlayerArm extends Phaser.Sprite {
 
     setTargetAngle(angleIn) {
         this.angle = angleIn;
-        this.nextSection.changeBase(this.getTipX(), this.getTipY(), this.angle)
+        this.nextSection.changeBase(this.getTipX(), this.getTipY(), this.angle);
     }
 
     getTipX() {
@@ -41,11 +44,7 @@ class PlayerArm extends Phaser.Sprite {
     }
 
     fireGun() {
-      this.gun.fireAngle = this.angle;
-      this.gun.fireFrom.x = this.getTipX();
-      this.gun.fireFrom.y = this.getTipY();
-
-      this.gun.fire(this.player);
+      this.nextSection.fireGun();
     }
 }
 
