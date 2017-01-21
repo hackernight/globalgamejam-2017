@@ -41,7 +41,6 @@ class Menu extends Phaser.State {
     }
 
     addButtons() {
-
         this.leftTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
         this.rightTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
 
