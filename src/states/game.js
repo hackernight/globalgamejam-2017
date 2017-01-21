@@ -1,13 +1,12 @@
 import PlayerBody from '../prefabs/playerBody';
 import PlayerArm from '../prefabs/playerArm';
 import EnemyPointy from '../prefabs/enemyPointy';
-import Projectile from '../prefabs/projectile';
-
 class Game extends Phaser.State {
 
+
     create() {
-        this.projectiles = [];
         this.player = new PlayerBody(this.game);
+        this.gun = this.game.add.weapon(30, 'projectile');
         const right = new PlayerArm(this.game, 0);
         const left = new PlayerArm(this.game, 180);
         for (let i = 0; i < 10; ++i) {
@@ -28,23 +27,22 @@ class Game extends Phaser.State {
     }
 
     update() {
-            const deadProjectiles = [];
-            for (let i = 0; i < this.projectiles.length; i++) {
-                if (!this.projectiles[i].alive) {
-                    deadProjectiles.push(i);
-                }
-            }
-            deadProjectiles.sort();
-            deadProjectiles.reverse();
-            for (const deaddie of deadProjectiles){
-                //this.projectiles.remove(deaddie);
-                this.projectiles.splice(deaddie, 1);
-            }
+            // const deadProjectiles = [];
+            // for (let i = 0; i < this.projectiles.length; i++) {
+            //     if (!this.projectiles[i].alive) {
+            //         deadProjectiles.push(i);
+            //     }
+            // }
+            // deadProjectiles.sort();
+            // deadProjectiles.reverse();
+            // for (const deaddie of deadProjectiles){
+            //     this.projectiles.splice(deaddie, 1);
+            // }
     }
 
     shoot() {
         console.log("I shot");
-        this.projectiles.push(new Projectile(this.game, this.player.x, this.player.y));
+        this.gun.fire(this.player);
     }
 
     endGame() {

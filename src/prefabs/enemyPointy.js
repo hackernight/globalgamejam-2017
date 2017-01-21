@@ -11,18 +11,17 @@ class EnemyPointy extends Phaser.Sprite {
 
     //Code ran on each frame of game
     update() {
-        for (const projectile of this.activeProjectiles) {
-            if (projectile.alive) {
-            console.log(this.activeProjectiles);
-            this.game.physics.arcade.overlap(this, projectile, () => {
-                this.destroy();
-                projectile.destroy();
-            });
-        }
-        else {
-            console.log("I dead");
-        }
-        }
+        // for (const projectile of this.activeProjectiles.children) {
+        //     if (projectile.alive) {
+        //         console.log(this.activeProjectiles);
+        //         this.game.physics.arcade.overlap(this, projectile, () => {
+        //             this.destroy();
+        //             projectile.destroy();
+        //         });
+        //     } else {
+        //         console.log("I dead");
+        //     }
+        // }
     }
 
 }
