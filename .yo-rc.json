@@ -1,0 +1,7 @@
+{
+  "generator-phaser": {
+    "projectName": "globalgamejam-2017",
+    "esVersion": 6,
+    "gameFolder": "boilerplate"
+  }
+}
