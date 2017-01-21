@@ -18,6 +18,10 @@ class PlayerArm extends Phaser.Sprite {
           this.angle,
           1
         );
+
+        this.events.onKilled.add(() => {
+            this.nextSection.kill();
+        });
     }
 
     //Code ran on each frame of game
