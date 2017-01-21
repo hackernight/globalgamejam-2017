@@ -11,7 +11,7 @@ class Preloader extends Phaser.State {
         this.asset = this.add.sprite(this.game.width * 0.5 - 110, this.game.height * 0.5 - 10, 'preloader');
         this.load.setPreloadSprite(this.asset);
 
-        Setup loading and its events
+        // Setup loading and its events
         this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
         this.loadResources();
     }
@@ -24,9 +24,9 @@ class Preloader extends Phaser.State {
 
     loadResources() {
         // load your resources here
-        game.load.image('enemy', 'assets/enemyPointy.png');
-        game.load.image('playerArm', 'assets/playerArm.png');
-        game.load.image('playerBody', 'assets/playerBody.png');
+        this.game.load.image('enemyPointy', 'assets/enemy-pointy.png');
+        this.game.load.image('playerArm', 'assets/wavyman-arm.png');
+        this.game.load.image('playerBody', 'assets/wavyman-body.png');
     }
 
     onLoadComplete() {
