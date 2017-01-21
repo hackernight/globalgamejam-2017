@@ -1,6 +1,5 @@
 //Documentation for Phaser's (2.6.2) sprites:: phaser.io/docs/2.6.2/Phaser.Sprite.html
 class PlayerArm extends Phaser.Sprite {
-
     //initialization code in the constructor
     constructor(game, angle) {
         super(game, game.world.centerX, game.world.centerY, 'playerArm');
@@ -12,9 +11,11 @@ class PlayerArm extends Phaser.Sprite {
 
     //Code ran on each frame of game
     update() {
-        this.angle += 1;
     }
 
+    setTargetAngle(angleIn) {
+        this.angle = angleIn;
+    }
 }
 
 export default PlayerArm;

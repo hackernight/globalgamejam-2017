@@ -63,10 +63,18 @@ class Game extends Phaser.State {
     }
 
     update() {
-      if(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) != 0 ||
-       this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0) {
-        this.dump();
+      if(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) != 0) {
+        this.left.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y)));
       }
+
+      if(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0) {
+        this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
+      }
+    }
+
+    getAngle(X,Y) {
+      
+      return Phaser.Math.radToDeg(Phaser.Math.angleBetween(0,0,X,Y));
     }
 
     shoot() {
