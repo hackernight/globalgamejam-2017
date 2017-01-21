@@ -6,7 +6,7 @@ import Projectile from '../prefabs/projectile';
 class Game extends Phaser.State {
 
     create() {
-        new PlayerBody(this.game);
+        this.player = new PlayerBody(this.game);
         const right = new PlayerArm(this.game, 0);
         const left = new PlayerArm(this.game, 180);
         for (let i = 0; i < 10; ++i) {
@@ -23,7 +23,7 @@ class Game extends Phaser.State {
 
     shoot() {
       console.log("I shot");
-      new Projectile(this.game, 100, 100);
+      new Projectile(this.game, this.player.x, this.player.y);
     }
 
     endGame() {

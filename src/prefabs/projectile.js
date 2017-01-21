@@ -6,6 +6,7 @@ class Projectile extends Phaser.Sprite {
   constructor(game, x, y, frame) {
     super(game, x, y, 'projectile', frame);
     this.scale.setTo(5, 5);
+    this.anchor.setTo(0.5, 0.5);
     this.game.add.existing(this);
   }
 
