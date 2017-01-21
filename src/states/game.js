@@ -39,6 +39,7 @@ class Game extends Phaser.State {
         this.game.input.onDown.add(() => {
             this.shoot();
         });
+        this.music = this.game.sound.play('music-level', 0.4);
     }
 
     dump() {
@@ -86,15 +87,24 @@ class Game extends Phaser.State {
 
     bulletCollision(enemy, bullet) {
         enemy.kill();
+        const key = this.game.rnd.pick(this.game.global.killSounds);
+        this.game.sound.play(key, 0.4);
         bullet.kill();
     }
 
     shoot() {
         this.gun.fire(this.player);
+        const key = this.game.rnd.pick(this.game.global.fireSounds);
+        this.game.sound.play(key, 0.4);
     }
 
     endGame() {
         this.game.state.start('gameover');
+    }
+
+
+    shutdown() {
+        this.music.stop();
     }
 
 }
