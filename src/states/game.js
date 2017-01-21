@@ -36,6 +36,7 @@ class Game extends Phaser.State {
         this.game.input.onDown.add(() => {
             this.shoot();
         });
+        this.music = this.game.sound.play('music-level', 0.4);
     }
 
     dump() {
@@ -96,6 +97,11 @@ class Game extends Phaser.State {
 
     endGame() {
         this.game.state.start('gameover');
+    }
+
+
+    shutdown() {
+        this.music.stop();
     }
 
 }
