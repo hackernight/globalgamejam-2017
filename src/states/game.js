@@ -16,10 +16,21 @@ class Game extends Phaser.State {
 
         this.player.enableBody = true;
         this.player.physicsBodyType = Phaser.Physics.ARCADE;
+
         this.rightGun = this.game.add.weapon(30, 'projectile');
         this.rightGun.fireRate = 250;
+        this.rightGun.onFire.add(() => {
+          const key = this.game.rnd.pick(this.game.global.fireSounds);
+          this.game.sound.play(key, 0.4);
+        });
         this.leftGun = this.game.add.weapon(30, 'projectile');
         this.leftGun.fireRate = 250;
+        this.leftGun.onFire.add(() => {
+          const key = this.game.rnd.pick(this.game.global.fireSounds);
+          this.game.sound.play(key, 0.4);
+        });
+
+
         this.right = new PlayerArm(this.game, 0, this.rightGun);
         this.left = new PlayerArm(this.game, 180, this.leftGun);
         this.player.events.onKilled.add(() => {

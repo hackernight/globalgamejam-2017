@@ -46,8 +46,6 @@ class PlayerArm extends Phaser.Sprite {
       this.gun.fireFrom.y = this.getTipY();
 
       this.gun.fire(this.player);
-      const key = this.game.rnd.pick(this.game.global.fireSounds);
-      this.game.sound.play(key, 0.4);
     }
 }
 
