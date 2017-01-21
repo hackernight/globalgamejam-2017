@@ -5,39 +5,49 @@ class EnemyPointy extends Phaser.Sprite {
     constructor(game, x, y, player) {
         super(game, x, y, 'enemyBalloon');
         game.add.existing(this);
-        this.Player = player;
+        this.player = player;
         const scale = 0.15;
         this.scale.setTo(scale, scale);
         this.anchor.setTo(0.5,0.5);
 
-        this.movementAction = "Random";
-        this.targetX = player.x;
-        this.targetY = player.y;
-          console.log( this.targetX, this.targetY);
+        this.targetX = this.game.rnd.integerInRange(0, this.game.world.width);;
+        this.targetY = this.game.rnd.integerInRange(0, this.game.world.height);;
+        this.refreshrate = (this.game.rnd.integerInRange(1, 6))/2;
 
-        //this.tween = game.add.tween(this).to( { x: 200 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        this.game.time.events.loop(Phaser.Timer.SECOND * this.refreshrate, () => {
+              this.makeMove();
+        }, this);
 
-         //  When the tween loops it decides what move to make
-         //this.tween.onLoop.add(this.makeMove, this);
-
+      //and start out with a move, even if we're a slow balloon
+      //this.makeMove();
     }
 
     //Code ran on each frame of game
     update() {
 
-      this.makeMove();
+    }
+
+    randomDirection(){
+      let num = this.game.rnd.integerInRange(0, 100);
+      num = num - 50;
+      return num;
     }
 
     makeMove(){
-      console.log("MakeMove called", this.targetX, this.targetY);
 
-      let courseChange = this.game.rnd.integerInRange(0, 100);
-      courseChange = courseChange - 50;
+      let courseChange1 = this.randomDirection();
+      let courseChange2 = this.randomDirection();
 
-      this.targetY = this.targetY + courseChange;
-      this.targetX = this.targetX + courseChange;
+      this.targetY = this.targetY + courseChange1;
+      this.targetX = this.targetX + courseChange2;
 
-      this.game.physics.arcade.moveToXY(this, this.targetX, this.targetY, 120);
+      if (this.targetX > this.game.world.width || this.targetX < 0 || this.targetY > this.game.world.height || this.targetY < 0){
+        //suddenly focus on player again
+        this.targetX = this.player.x;
+        this.targetY = this.player.y;
+      }
+
+      this.game.physics.arcade.moveToXY(this, this.targetX, this.targetY, 180);
 
         //if (this.movementAction == "Random"){
         //  this.body.velocity.x = 0;
