@@ -1,3 +1,5 @@
+import MenuText from '../prefabs/menuText';
+
 class Menu extends Phaser.State {
 
     constructor() {
@@ -5,12 +7,8 @@ class Menu extends Phaser.State {
     }
 
     create() {
-        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5, 'MENU', {
-            font: '42px Arial',
-            fill: '#ffffff',
-            align: 'center'
-        });
-        text.anchor.set(0.5);
+        new MenuText(this.game, this.game.height * 0.2, "Detective Waverton and the 99 Red Balloons");
+        new MenuText(this.game, this.game.height * 0.5, "Shoot to start!");
 
         this.game.input.onDown.add(() => {
             this.startGame();
