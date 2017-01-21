@@ -11,7 +11,7 @@ class Projectile extends Phaser.Sprite {
 
   //Code ran on each frame of game
   update() {
-
+      this.x += 15;
   }
 
 }
