@@ -6,16 +6,11 @@ import Projectile from '../prefabs/projectile';
 class Game extends Phaser.State {
 
     create() {
-<<<<<<< HEAD
         new PlayerBody(this.game);
         this.right = new PlayerArm(this.game, 0);
         this.left = new PlayerArm(this.game, 180);
-=======
         this.projectiles = [];
         this.player = new PlayerBody(this.game);
-        const right = new PlayerArm(this.game, 0);
-        const left = new PlayerArm(this.game, 180);
->>>>>>> b787b6b9b040cac5f252e8a5c89015ae5f47ab6c
         for (let i = 0; i < 10; ++i) {
             // const minimumEdgeBuffer = 100;
             // let x = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.width / 2 - minimumEdgeBuffer);
@@ -28,7 +23,7 @@ class Game extends Phaser.State {
             // }
             new EnemyPointy(this.game, this.player.x + 200 + i, this.player.y, this.projectiles);
         }
-<<<<<<< HEAD
+
         this.input.onDown.add(this.endGame, this);
 
         this.game.input.gamepad.start();
@@ -36,11 +31,10 @@ class Game extends Phaser.State {
         this.pad1 = this.game.input.gamepad.pad1;
 
         
-=======
+
         this.game.input.onDown.add(() => {
             this.shoot();
         });
->>>>>>> b787b6b9b040cac5f252e8a5c89015ae5f47ab6c
     }
 
     dump() {
