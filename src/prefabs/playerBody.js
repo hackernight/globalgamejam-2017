@@ -6,6 +6,8 @@ class PlayerBody extends Phaser.Sprite {
         super(game, game.world.centerX, game.world.centerY, 'playerBody');
         this.anchor.setTo(0.5, 0.5);
         this.health = hp;
+        this.maxHealth = hp;
+        game.physics.enable(this, Phaser.Physics.ARCADE);
         game.add.existing(this);
     }
 

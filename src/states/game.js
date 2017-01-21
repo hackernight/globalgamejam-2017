@@ -6,11 +6,11 @@ import Heart from '../prefabs/heart';
 class Game extends Phaser.State {
 
     create() {
-        this.health = 3;
-        this.player = new PlayerBody(this.game, this.health);
+        const health = 3;
         this.hearts = [];
+        this.player = new PlayerBody(this.game, health);
 
-        for (let i = 0; i < this.health; ++i) {
+        for (let i = 0; i < health; ++i) {
             this.hearts.push(new Heart(this.game, i * 90, 0));
         }
 
@@ -24,7 +24,8 @@ class Game extends Phaser.State {
         this.enemies.enableBody = true;
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
 
-        for (let i = 0; i < 10; ++i) {
+        const enemyCount = 3;
+        for (let i = 0; i < enemyCount; ++i) {
             const minimumEdgeBuffer = 100;
             let x = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.width / 2 - minimumEdgeBuffer);
             if (x > this.game.world.width / 4) {
@@ -87,6 +88,7 @@ class Game extends Phaser.State {
             this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
         }
         this.game.physics.arcade.overlap(this.enemies, this.gun.bullets, this.bulletCollision, null, this);
+        this.game.physics.arcade.overlap(this.enemies, this.player, this.playerEnemyCollision, null, this);
     }
 
     getAngle(X, Y) {
@@ -98,6 +100,15 @@ class Game extends Phaser.State {
         const key = this.game.rnd.pick(this.game.global.killSounds);
         this.game.sound.play(key, 0.4);
         bullet.kill();
+    }
+
+    playerEnemyCollision(player, enemy) {
+        enemy.kill();
+        const key = this.game.rnd.pick(this.game.global.deathSounds);
+        this.game.sound.play(key, 0.4);
+        player.damage(1);
+        const deadHeart = this.hearts.pop();
+        deadHeart.destroy();
     }
 
     shoot() {
