@@ -22,13 +22,15 @@ class Game extends Phaser.State {
         this.player.events.onKilled.add(() => {
             this.right.kill();
             this.left.kill();
+
+            this.game.state.start('gameover', false, true);
         });
 
         this.enemies = this.game.add.group();
         this.enemies.enableBody = true;
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
 
-        const enemyCount = 3;
+        const enemyCount = 5;
         for (let i = 0; i < enemyCount; ++i) {
             const minimumEdgeBuffer = 100;
             let x = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.width / 2 - minimumEdgeBuffer);
