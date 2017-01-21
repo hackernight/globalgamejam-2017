@@ -26,7 +26,6 @@ class EnemyPointy extends Phaser.Sprite {
       if (offscreenEdge==4){
         y = game.world.height + minimumEdgeBuffer;
       }
-      console.log(x, y);
 
         super(game, x, y, 'enemyBalloon');
         game.add.existing(this);
@@ -72,7 +71,7 @@ class EnemyPointy extends Phaser.Sprite {
         this.targetY = this.player.y;
       }
 
-      this.game.physics.arcade.moveToXY(this, this.targetX, this.targetY, 180);
+      this.game.physics.arcade.moveToXY(this, this.targetX, this.targetY, 50);
 
         //if (this.movementAction == "Random"){
         //  this.body.velocity.x = 0;

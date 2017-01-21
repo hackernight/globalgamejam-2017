@@ -7,7 +7,7 @@ class MidArmSection extends Phaser.Sprite {
     this.angle = parentAngle;
     this.parentAngle = parentAngle;
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.anchor.setTo(.5,.5); 
+    this.anchor.setTo(.5,.5);
     this.pivot.x = -this.width/2;
     this.game.add.existing(this);
   }
@@ -18,7 +18,7 @@ class MidArmSection extends Phaser.Sprite {
   }
 
   changeBase(X,Y,parentAngle) {
-  	console.log("X: " + X + "   Y: " + Y)
+  	//console.log("X: " + X + "   Y: " + Y)
   	this.x = X;
   	this.y = Y;
   	this.parentAngle = parentAngle;
