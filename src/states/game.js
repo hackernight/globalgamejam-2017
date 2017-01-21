@@ -67,6 +67,7 @@ class Game extends Phaser.State {
         this.pad1 = this.game.input.gamepad.pad1;
 
         this.music = this.game.sound.play('music-level', 0.4);
+        this.music.loop = true;
     }
 
     update() {
