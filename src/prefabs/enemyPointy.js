@@ -7,17 +7,15 @@ class EnemyPointy extends Phaser.Sprite {
         game.physics.enable(this, Phaser.Physics.ARCADE);
         this.activeProjectiles = activeProjectiles;
         game.add.existing(this);
-
-        this.body.onOverlap = new Phaser.Signal();
-        this.body.onOverlap.addOnce(() => {
-            this.kill();
-        });
     }
 
     //Code ran on each frame of game
     update() {
         for (const projectile of this.activeProjectiles) {
-            this.game.physics.arcade.overlap(this, projectile);
+            this.game.physics.arcade.overlap(this, projectile, () => {
+                this.kill();
+                projectile.kill();
+            });
         }
     }
 
