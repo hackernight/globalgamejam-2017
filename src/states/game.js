@@ -30,10 +30,12 @@ class Game extends Phaser.State {
         this.enemies.enableBody = true;
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
 
+        this.game.time.events.loop(Phaser.Timer.SECOND, this.spawnEnemy, this);
+
         const enemyCount = 5;
         for (let i = 0; i < enemyCount; ++i) {
 
-            this.enemies.add(new EnemyPointy(this.game, this.player));
+            this.spawnEnemy();
 
         }
 
@@ -117,6 +119,10 @@ class Game extends Phaser.State {
 
     endGame() {
         this.game.state.start('gameover');
+    }
+
+    spawnEnemy() {
+        this.enemies.add(new EnemyPointy(this.game, this.player));
     }
 
 
