@@ -6,6 +6,8 @@ class Game extends Phaser.State {
 
     create() {
         this.player = new PlayerBody(this.game);
+        this.player.enableBody = true;
+        this.player.physicsBodyType = Phaser.Physics.ARCADE;
         this.gun = this.game.add.weapon(30, 'projectile');
         this.right = new PlayerArm(this.game, 0, this.gun, this.shoot);
         this.left = new PlayerArm(this.game, 180, this.gun, this.shoot);
@@ -24,7 +26,8 @@ class Game extends Phaser.State {
             // if (y > this.game.world.height / 4) {
             //     y += this.game.world.height / 2;
             // }
-            this.enemies.add(new EnemyPointy(this.game, this.player.x - 20, this.player.y - 200 - i));
+            this.enemies.add(new EnemyPointy(this.game, this.player.x - 20, this.player.y - 200 - i, this.player));
+
         }
 
         this.game.input.gamepad.start();
