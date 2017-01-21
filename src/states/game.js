@@ -9,8 +9,8 @@ class Game extends Phaser.State {
         const health = 3;
         this.hearts = [];
         this.player = new PlayerBody(this.game, health);
-        this.balloonsToSpawn = 99;
-        this.balloonsToKill = 99;
+        this.balloonsToSpawn = 9;
+        this.balloonsToKill = 9;
         let scorestartingX = this.game.world.centerX + (this.game.world.centerX / 3);
         this.balloonsAtLargeText = this.game.add.text(scorestartingX, 50,
             "Balloons At Large: " + this.balloonsToKill, { font: "65px Arial", fill: "#ff0044", align: "center" });
@@ -108,10 +108,10 @@ class Game extends Phaser.State {
         const key = this.game.rnd.pick(this.game.global.killSounds);
         this.game.sound.play(key, 0.4);
         bullet.kill();
-        this.balloonsToKill - this.balloonsToKill - 1;
+        this.balloonsToKill = this.balloonsToKill - 1;
         this.balloonsAtLargeText.text = "Balloons At Large: " + this.balloonsToKill;
-        if (this.balloonsToKill = 0) {
-            //you win!  TBD
+        if (this.balloonsToKill == 0) {
+            this.endGame();
         }
     }
 
@@ -131,12 +131,12 @@ class Game extends Phaser.State {
     }
 
     endGame() {
-        this.game.state.start('gameover');
+        this.game.state.start('gameover', true, false, (this.balloonsToKill <=0));
     }
 
     spawnEnemy() {
         this.balloonsToSpawn = this.balloonsToSpawn - 1;
-        if (this.balloonsToSpawn > 0){
+        if (this.balloonsToSpawn > -1){
             this.enemies.add(new EnemyPointy(this.game, this.player));
         }
     }
