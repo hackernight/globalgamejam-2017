@@ -4,6 +4,8 @@ class MenuText extends Phaser.Text {
         const style = {
             font: '42px Arial',
             fill: '#ffffff',
+            stroke: 0x333333,
+            strokeThickness: 5,
             align: 'center'
         };
         super(game, game.width * 0.5, y, text, style);

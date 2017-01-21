@@ -1,14 +1,12 @@
 import MenuText from '../prefabs/menuText';
+import BackgroundImage from '../prefabs/backgroundImage';
 
 class Menu extends Phaser.State {
 
-    constructor() {
-        super();
-    }
-
     create() {
-        new MenuText(this.game, this.game.height * 0.2, "Detective Waverton and the 99 Red Balloons");
-        new MenuText(this.game, this.game.height * 0.5, "Shoot to start!");
+        new BackgroundImage(this.game, 'introscreen');
+        new MenuText(this.game, this.game.height * 0.2, 'Detective Waverton and the 99 Red Balloons');
+        new MenuText(this.game, this.game.height * 0.5, 'Shoot to start!');
 
         this.game.input.onDown.add(() => {
             this.startGame();
