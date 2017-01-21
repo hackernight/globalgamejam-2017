@@ -1,16 +1,19 @@
 import PlayerBody from '../prefabs/playerBody';
 import PlayerArm from '../prefabs/playerArm';
 import EnemyPointy from '../prefabs/enemyPointy';
-import Projectile from '../prefabs/projectile';
-
 class Game extends Phaser.State {
 
+
     create() {
-        new PlayerBody(this.game);
+        this.player = new PlayerBody(this.game);
         this.right = new PlayerArm(this.game, 0);
         this.left = new PlayerArm(this.game, 180);
-        this.projectiles = [];
-        this.player = new PlayerBody(this.game);
+        this.gun = this.game.add.weapon(30, 'projectile');
+
+        this.enemies = this.game.add.group();
+        this.enemies.enableBody = true;
+        this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
+
         for (let i = 0; i < 10; ++i) {
             // const minimumEdgeBuffer = 100;
             // let x = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.width / 2 - minimumEdgeBuffer);
@@ -21,10 +24,8 @@ class Game extends Phaser.State {
             // if (y > this.game.world.height / 4) {
             //     y += this.game.world.height / 2;
             // }
-            new EnemyPointy(this.game, this.player.x + 200 + i, this.player.y, this.projectiles);
+            this.enemies.add(new EnemyPointy(this.game, this.player.x - 20, this.player.y - 200 - i));
         }
-
-        this.input.onDown.add(this.endGame, this);
 
         this.game.input.gamepad.start();
 
@@ -44,42 +45,49 @@ class Game extends Phaser.State {
         console.log("RIGHTY: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y));
     }
 
-    onDown (button, value) {
-
-      if (button.buttonCode === Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) {
-          console.log("RIGHT TRIGGER");
-      } else if (button.buttonCode === Phaser.Gamepad.XBOX360_LEFT_TRIGGER) {
-          console.log("LEFT TRIGGER");
-      }
+    onDown(button, value) {
+        if (button.buttonCode === Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) {
+            console.log("RIGHT TRIGGER");
+        } else if (button.buttonCode === Phaser.Gamepad.XBOX360_LEFT_TRIGGER) {
+            console.log("LEFT TRIGGER");
+        }
 
     }
 
     addButtons() {
-      this.leftTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
-      this.rightTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
+        this.leftTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
+        this.rightTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
 
-      this.leftTrigger.onDown.add(this.onDown, this);
-      this.rightTrigger.onDown.add(this.onDown, this);
+        if (!!this.leftTrigger) {
+            this.leftTrigger.onDown.add(this.onDown, this);
+        }
+        if (!!this.rightTrigger) {
+            this.rightTrigger.onDown.add(this.onDown, this);
+        }
     }
 
     update() {
-      if(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) != 0) {
-        this.left.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y)));
-      }
+        if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) != 0) {
+            this.left.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y)));
+        }
 
-      if(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0) {
-        this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
-      }
+        if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0) {
+            this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
+        }
+        this.game.physics.arcade.overlap(this.enemies, this.gun.bullets, this.bulletCollision, null, this);
     }
 
-    getAngle(X,Y) {
-      
-      return Phaser.Math.radToDeg(Phaser.Math.angleBetween(0,0,X,Y));
+    getAngle(X, Y) {
+        return Phaser.Math.radToDeg(Phaser.Math.angleBetween(0, 0, X, Y));
+    }
+
+    bulletCollision(enemy, bullet) {
+        enemy.kill();
+        bullet.kill();
     }
 
     shoot() {
-        console.log("I shot");
-        this.projectiles.push(new Projectile(this.game, this.player.x, this.player.y));
+        this.gun.fire(this.player);
     }
 
     endGame() {
