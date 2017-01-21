@@ -7,7 +7,8 @@ class Projectile extends Phaser.Sprite {
     super(game, x, y, 'projectile', frame);
     this.scale.setTo(5, 5);
     this.anchor.setTo(0.5, 0.5);
-    this.game.add.existing(this);
+    game.physics.enable(this, Phaser.Physics.ARCADE);
+    game.add.existing(this);
   }
 
   //Code ran on each frame of game

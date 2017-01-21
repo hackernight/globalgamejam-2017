@@ -1,26 +1,23 @@
-
 //Documentation for Phaser's (2.6.2) sprites:: phaser.io/docs/2.6.2/Phaser.Sprite.html
 class EnemyPointy extends Phaser.Sprite {
 
-  //initialization code in the constructor
-  constructor(game) {
-    const minimumEdgeBuffer = 100;
-    let x = game.rnd.integerInRange(minimumEdgeBuffer, game.world.width / 2 - minimumEdgeBuffer);
-    if (x > game.world.width / 4) {
-      x += game.world.width / 2;
+    //initialization code in the constructor
+    constructor(game, x, y, activeProjectiles) {
+        super(game, x, y, 'enemyPointy');
+        game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.activeProjectiles = activeProjectiles;
+        game.add.existing(this);
     }
-    let y = game.rnd.integerInRange(minimumEdgeBuffer, game.world.height / 2 - minimumEdgeBuffer);
-    if (y > game.world.height / 4) {
-      y += game.world.height / 2;
+
+    //Code ran on each frame of game
+    update() {
+        for (const projectile of this.activeProjectiles) {
+            this.game.physics.arcade.overlap(this, projectile, () => {
+                this.kill();
+                projectile.kill();
+            });
+        }
     }
-    super(game, x, y, 'enemyPointy');
-    this.game.add.existing(this);
-  }
-
-  //Code ran on each frame of game
-  update() {
-
-  }
 
 }
 
