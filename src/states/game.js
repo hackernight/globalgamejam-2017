@@ -6,9 +6,9 @@ class Game extends Phaser.State {
 
     create() {
         this.player = new PlayerBody(this.game);
-        this.right = new PlayerArm(this.game, 0);
-        this.left = new PlayerArm(this.game, 180);
         this.gun = this.game.add.weapon(30, 'projectile');
+        this.right = new PlayerArm(this.game, 0, this.gun, this.shoot);
+        this.left = new PlayerArm(this.game, 180, this.gun, this.shoot);
 
         this.enemies = this.game.add.group();
         this.enemies.enableBody = true;
@@ -47,9 +47,9 @@ class Game extends Phaser.State {
 
     onDown(button, value) {
         if (button.buttonCode === Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) {
-            console.log("RIGHT TRIGGER");
+            this.right.fireGun();
         } else if (button.buttonCode === Phaser.Gamepad.XBOX360_LEFT_TRIGGER) {
-            console.log("LEFT TRIGGER");
+            this.left.fireGun();
         }
 
     }
