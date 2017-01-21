@@ -6,6 +6,7 @@ class PlayerArm extends Phaser.Sprite {
     constructor(game, angle, gun) {
         super(game, game.world.centerX, game.world.centerY, 'playerArm');
         this.wobbledyFactor=8;
+        this.springyFactor = 2;
         this.anchor.setTo(0.5, 0.5);
         this.pivot.x = -55;
         this.angle = angle;
@@ -30,9 +31,9 @@ class PlayerArm extends Phaser.Sprite {
     //Code ran on each frame of game
     update() {
       if(this.body.angularVelocity != 0) {
-        this.body.angularVelocity += this.smallestAngle(this.parentAngle, this.angle) - (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*this.wobbledyFactor)) - Math.sign(this.body.angularVelocity) * 2;
+        this.body.angularVelocity += this.smallestAngle(this.parentAngle, this.angle) * this.springyFactor - (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*this.wobbledyFactor)) - Math.sign(this.body.angularVelocity) * 2;
       } else {
-        this.body.angularVelocity += this.smallestAngle(this.parentAngle,this.angle);
+        this.body.angularVelocity += this.smallestAngle(this.parentAngle,this.angle) * this.springyFactor;
       }
       if(this.nextSection) {
         this.nextSection.changeBase(this.getTipX(), this.getTipY(), this.angle);
