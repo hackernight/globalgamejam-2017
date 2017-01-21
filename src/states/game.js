@@ -44,33 +44,10 @@ class Game extends Phaser.State {
 
         this.pad1 = this.game.input.gamepad.pad1;
 
-        this.addButtons();
-
         this.game.input.onDown.add(() => {
             this.shoot();
         });
         this.music = this.game.sound.play('music-level', 0.4);
-    }
-
-    onDown(button, value) {
-        if (button.buttonCode === Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) {
-            this.right.fireGun();
-        } else if (button.buttonCode === Phaser.Gamepad.XBOX360_LEFT_TRIGGER) {
-            this.left.fireGun();
-        }
-
-    }
-
-    addButtons() {
-        this.leftTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
-        this.rightTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
-
-        if (!!this.leftTrigger) {
-            this.leftTrigger.onDown.add(this.onDown, this);
-        }
-        if (!!this.rightTrigger) {
-            this.rightTrigger.onDown.add(this.onDown, this);
-        }
     }
 
     update() {
@@ -81,6 +58,14 @@ class Game extends Phaser.State {
         if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0) {
             this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
         }
+
+        if (this.pad1.isDown(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER)) {
+            this.right.fireGun();
+        }
+        if (this.pad1.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)) {
+            this.left.fireGun();
+        }
+
         this.game.physics.arcade.overlap(this.enemies, this.gun.bullets, this.bulletCollision, null, this);
         this.game.physics.arcade.overlap(this.enemies, this.player, this.playerEnemyCollision, null, this);
     }
@@ -121,12 +106,6 @@ class Game extends Phaser.State {
 
 
     shutdown() {
-        if (!!this.leftTrigger) {
-            this.leftTrigger.onDown.removeAll();
-        }
-        if (!!this.rightTrigger) {
-            this.rightTrigger.onDown.removeAll();
-        }
         this.music.stop();
     }
 
