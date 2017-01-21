@@ -20,8 +20,8 @@ class MidArmSection extends Phaser.Sprite {
  	} else {
 		this.body.angularVelocity += this.smallestAngle(this.parentAngle,this.angle);
  	}
-  	console.log("first: " + (this.parentAngle - this.angle));
-  	console.log("second: " + (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*8)));
+  	//console.log("first: " + (this.parentAngle - this.angle));
+  	//console.log("second: " + (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*8)));
   }
 
   smallestAngle(a1, a2) {
