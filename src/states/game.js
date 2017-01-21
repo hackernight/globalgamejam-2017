@@ -1,22 +1,37 @@
 import PlayerBody from '../prefabs/playerBody';
 import PlayerArm from '../prefabs/playerArm';
 import EnemyPointy from '../prefabs/enemyPointy';
+import Heart from '../prefabs/heart';
+
 class Game extends Phaser.State {
 
-
     create() {
-        this.player = new PlayerBody(this.game);
+        const health = 3;
+        this.hearts = [];
+        this.player = new PlayerBody(this.game, health);
+
+        for (let i = 0; i < health; ++i) {
+            this.hearts.push(new Heart(this.game, i * 90, 0));
+        }
+
         this.player.enableBody = true;
         this.player.physicsBodyType = Phaser.Physics.ARCADE;
         this.gun = this.game.add.weapon(30, 'projectile');
         this.right = new PlayerArm(this.game, 0, this.gun, this.shoot);
         this.left = new PlayerArm(this.game, 180, this.gun, this.shoot);
+        this.player.events.onKilled.add(() => {
+            this.right.kill();
+            this.left.kill();
+
+            this.game.state.start('gameover', false, true);
+        });
 
         this.enemies = this.game.add.group();
         this.enemies.enableBody = true;
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
 
-        for (let i = 0; i < 10; ++i) {
+        const enemyCount = 5;
+        for (let i = 0; i < enemyCount; ++i) {
             const minimumEdgeBuffer = 100;
             let x = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.width / 2 - minimumEdgeBuffer);
             if (x > this.game.world.width / 4) {
@@ -79,6 +94,7 @@ class Game extends Phaser.State {
             this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
         }
         this.game.physics.arcade.overlap(this.enemies, this.gun.bullets, this.bulletCollision, null, this);
+        this.game.physics.arcade.overlap(this.enemies, this.player, this.playerEnemyCollision, null, this);
     }
 
     getAngle(X, Y) {
@@ -90,6 +106,15 @@ class Game extends Phaser.State {
         const key = this.game.rnd.pick(this.game.global.killSounds);
         this.game.sound.play(key, 0.4);
         bullet.kill();
+    }
+
+    playerEnemyCollision(player, enemy) {
+        enemy.kill();
+        const key = this.game.rnd.pick(this.game.global.deathSounds);
+        this.game.sound.play(key, 0.4);
+        player.damage(1);
+        const deadHeart = this.hearts.pop();
+        deadHeart.destroy();
     }
 
     shoot() {
