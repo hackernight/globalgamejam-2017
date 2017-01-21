@@ -5,9 +5,8 @@ class Game extends Phaser.State {
 
   create() {
     new PlayerBody(this.game);
-    const left = new PlayerArm(this.game, this.game.world.centerX + 48, this.game.world.centerY);
-    // const right = new PlayerArm(this.game, this.game.world.centerX - 48, this.game.world.centerY);
-    // console.log(this.pivot.x);
+    const right = new PlayerArm(this.game, 0);
+    const left = new PlayerArm(this.game, 180);
     this.input.onDown.add(this.endGame, this);
   }
 

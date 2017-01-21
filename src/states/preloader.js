@@ -4,6 +4,7 @@ class Preloader extends Phaser.State {
         super();
         this.asset = null;
         this.ready = false;
+
     }
 
     preload() {
@@ -14,6 +15,7 @@ class Preloader extends Phaser.State {
         // Setup loading and its events
         this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
         this.loadResources();
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
     }
 
     update() {
