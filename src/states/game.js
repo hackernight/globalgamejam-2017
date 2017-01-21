@@ -32,16 +32,8 @@ class Game extends Phaser.State {
 
         const enemyCount = 5;
         for (let i = 0; i < enemyCount; ++i) {
-            const minimumEdgeBuffer = 100;
-            let x = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.width / 2 - minimumEdgeBuffer);
-            if (x > this.game.world.width / 4) {
-                x += this.game.world.width / 2;
-            }
-            let y = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.height / 2 - minimumEdgeBuffer);
-            if (y > this.game.world.height / 4) {
-                y += this.game.world.height / 2;
-            }
-            this.enemies.add(new EnemyPointy(this.game, x, y, this.player));
+
+            this.enemies.add(new EnemyPointy(this.game, this.player));
 
         }
 

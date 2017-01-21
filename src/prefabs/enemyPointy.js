@@ -2,7 +2,17 @@
 class EnemyPointy extends Phaser.Sprite {
 
     //initialization code in the constructor
-    constructor(game, x, y, player) {
+    constructor(game,  player) {
+      const minimumEdgeBuffer = 100;
+      let x = game.rnd.integerInRange(minimumEdgeBuffer, game.world.width / 2 - minimumEdgeBuffer);
+      if (x > game.world.width / 4) {
+          x += game.world.width / 2;
+      }
+      let y = game.rnd.integerInRange(minimumEdgeBuffer, game.world.height / 2 - minimumEdgeBuffer);
+      if (y > game.world.height / 4) {
+          y += game.world.height / 2;
+      }
+
         super(game, x, y, 'enemyBalloon');
         game.add.existing(this);
         this.player = player;
