@@ -1,6 +1,7 @@
 import PlayerBody from '../prefabs/playerBody';
 import PlayerArm from '../prefabs/playerArm';
 import EnemyPointy from '../prefabs/enemyPointy';
+import Projectile from '../prefabs/projectile';
 
 class Game extends Phaser.State {
 
@@ -11,11 +12,18 @@ class Game extends Phaser.State {
         for (let i = 0; i < 10; ++i) {
             new EnemyPointy(this.game);
         }
-        this.input.onDown.add(this.endGame, this);
+        this.game.input.onDown.add(() => {
+            this.shoot();
+        });
     }
 
     update() {
 
+    }
+
+    shoot() {
+      console.log("I shot");
+      new Projectile(this.game, 100, 100);
     }
 
     endGame() {
