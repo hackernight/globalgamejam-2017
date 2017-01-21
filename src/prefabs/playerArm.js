@@ -15,6 +15,7 @@ class PlayerArm extends Phaser.Sprite {
           this.getTipX(),
           this.getTipY(),
           this.angle,
+          this.gun,
           1
         );
 
@@ -29,7 +30,7 @@ class PlayerArm extends Phaser.Sprite {
 
     setTargetAngle(angleIn) {
         this.angle = angleIn;
-        this.nextSection.changeBase(this.getTipX(), this.getTipY(), this.angle)
+        this.nextSection.changeBase(this.getTipX(), this.getTipY(), this.angle);
     }
 
     getTipX() {
@@ -41,11 +42,7 @@ class PlayerArm extends Phaser.Sprite {
     }
 
     fireGun() {
-      this.gun.fireAngle = this.angle;
-      this.gun.fireFrom.x = this.getTipX();
-      this.gun.fireFrom.y = this.getTipY();
-
-      this.gun.fire(this.player);
+      this.nextSection.fireGun();
     }
 }
 
