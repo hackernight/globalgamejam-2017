@@ -46,7 +46,7 @@ class Game extends Phaser.State {
             this.rightGun.destroy();
             this.leftGun.destroy();
 
-            this.game.state.start('gameover', false, true);
+            this.endGame();
         });
 
         this.enemies = this.game.add.group();
@@ -116,7 +116,8 @@ class Game extends Phaser.State {
     }
 
     endGame() {
-        this.game.state.start('gameover', true, false, (this.balloonsToKill <=0));
+        this.balloonsAtLargeText.text = "";
+        this.game.state.start('gameover', false, true, (this.balloonsToKill <=0));
     }
 
     spawnEnemy() {

@@ -3,19 +3,21 @@ class Menu extends Phaser.State {
   constructor() {
     super();
   }
+  init(gameWon){
+    this.gameWon = gameWon;
+  }
 
-  create(gameWon) {
+  create() {
     let message = 'Gameover';
-    if (gameWon){
-      message = "Success"; //"Officer Waverton can finally rest, his partner's brutal murder avenged."
+    if (this.gameWon==true){
+      message = "Officer Waverton can finally rest,\n his partner's brutal murder avenged."
     }
     else {
-      message = "Failure"; //"Officer Waverton failed in his quest for justice.  The city remains in danger from the Gang of 99."
+      message = "Officer Waverton failed\n in his quest for justice.\n The city remains in danger\n from the Gang of 99."
     }
 
-    var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5, message, {
-      font: '42px Arial', fill: '#ffffff', align: 'center', wordWrap: true
-    });
+    var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
+    var text = this.add.text(this.game.world.centerX, this.game.world.centerY, message, style);
     text.anchor.set(0.5);
 
     this.saveVarsToLocalStorage();
