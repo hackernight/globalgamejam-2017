@@ -28,7 +28,18 @@ class Game extends Phaser.State {
     }
 
     update() {
-
+            const deadProjectiles = [];
+            for (let i = 0; i < this.projectiles.length; i++) {
+                if (!this.projectiles[i].alive) {
+                    deadProjectiles.push(i);
+                }
+            }
+            deadProjectiles.sort();
+            deadProjectiles.reverse();
+            for (const deaddie of deadProjectiles){
+                //this.projectiles.remove(deaddie);
+                this.projectiles.splice(deaddie, 1);
+            }
     }
 
     shoot() {
