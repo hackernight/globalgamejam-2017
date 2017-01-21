@@ -22,8 +22,12 @@ class PlayerArm extends Phaser.Sprite {
 
     fireGun() {
       this.gun.fireAngle = this.angle;
-      console.log(this.width/2)
-      this.gun.fireFrom.x = 0;
+      this.gun.fireFrom.x = (Math.cos(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.x;
+      this.gun.fireFrom.y = (Math.sin(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.y;
+
+      console.log("X: " + this.gun.fireFrom.x);
+      console.log("Y: " + this.gun.fireFrom.y);
+
       this.shoot();
     }
 }
