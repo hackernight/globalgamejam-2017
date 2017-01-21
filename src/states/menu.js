@@ -26,6 +26,8 @@ class Menu extends Phaser.State {
         this.pad1.addCallbacks(this, {
             onConnect: this.addButtons
         });
+
+        this.music = this.game.sound.play('music-intro', 0.4);
     }
 
     onDown(button, value) {
@@ -51,13 +53,17 @@ class Menu extends Phaser.State {
     update() {}
 
     startGame() {
+        this.game.state.start('game');
+    }
+
+    shutdown() {
         if (!!this.leftTrigger) {
             this.leftTrigger.onDown.removeAll();
         }
         if (!!this.rightTrigger) {
             this.rightTrigger.onDown.removeAll();
         }
-        this.game.state.start('game');
+        this.music.stop();
     }
 
 }
