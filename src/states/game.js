@@ -22,6 +22,7 @@ class Game extends Phaser.State {
         this.player.events.onKilled.add(() => {
             this.right.kill();
             this.left.kill();
+            this.gun.destroy();
 
             this.game.state.start('gameover', false, true);
         });
