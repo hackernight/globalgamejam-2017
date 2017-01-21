@@ -17,7 +17,9 @@ class Game extends Phaser.State {
         this.player.enableBody = true;
         this.player.physicsBodyType = Phaser.Physics.ARCADE;
         this.rightGun = this.game.add.weapon(30, 'projectile');
+        this.rightGun.fireRate = 250;
         this.leftGun = this.game.add.weapon(30, 'projectile');
+        this.leftGun.fireRate = 250;
         this.right = new PlayerArm(this.game, 0, this.rightGun);
         this.left = new PlayerArm(this.game, 180, this.leftGun);
         this.player.events.onKilled.add(() => {
@@ -65,7 +67,8 @@ class Game extends Phaser.State {
             this.left.fireGun();
         }
 
-        this.game.physics.arcade.overlap(this.enemies, this.rightGun.bullets, this.bulletCollision, null, this);
+        this.game.physics.arcade.overlap(this.enemies, this.right.gun.bullets, this.bulletCollision, null, this);
+        this.game.physics.arcade.overlap(this.enemies, this.left.gun.bullets, this.bulletCollision, null, this);
         this.game.physics.arcade.overlap(this.enemies, this.player, this.playerEnemyCollision, null, this);
     }
 
