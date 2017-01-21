@@ -31,21 +31,19 @@ class Menu extends Phaser.State {
     }
 
     onDown(button, value) {
-
-        if (button.buttonCode === Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) {
-            this.startGame();
-        } else if (button.buttonCode === Phaser.Gamepad.XBOX360_LEFT_TRIGGER) {
-            this.startGame();
-        }
-
+        this.startGame();
     }
 
     addButtons() {
         this.leftTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
         this.rightTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
 
-        this.leftTrigger.onDown.add(this.onDown, this);
-        this.rightTrigger.onDown.add(this.onDown, this);
+        if (!!this.leftTrigger) {
+            this.leftTrigger.onDown.add(this.onDown, this);
+        }
+        if (!!this.rightTrigger) {
+            this.rightTrigger.onDown.add(this.onDown, this);
+        }
     }
 
 
