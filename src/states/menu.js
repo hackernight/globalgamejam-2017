@@ -53,16 +53,16 @@ class Menu extends Phaser.State {
     update() {}
 
     startGame() {
+        this.game.state.start('game');
+    }
+
+    shutdown() {
         if (!!this.leftTrigger) {
             this.leftTrigger.onDown.removeAll();
         }
         if (!!this.rightTrigger) {
             this.rightTrigger.onDown.removeAll();
         }
-        this.game.state.start('game');
-    }
-
-    shutdown() {
         this.music.stop();
     }
 
