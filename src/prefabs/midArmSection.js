@@ -44,11 +44,11 @@ class MidArmSection extends Phaser.Sprite {
   }
 
   getTipX() {
-    return (Math.cos(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.x;
+    return (Math.cos(Phaser.Math.degToRad(this.angle)) * (this.width)) + this.x;
   }
 
   getTipY() {
-    return (Math.sin(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.y;
+    return (Math.sin(Phaser.Math.degToRad(this.angle)) * (this.width)) + this.y;
   }
 
   fireGun() {
