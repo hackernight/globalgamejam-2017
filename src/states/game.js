@@ -52,13 +52,6 @@ class Game extends Phaser.State {
         this.music = this.game.sound.play('music-level', 0.4);
     }
 
-    dump() {
-        //console.log("LEFTX: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X));
-        //console.log("LEFTY: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y));
-        //console.log("RIGHTX: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X));
-        //console.log("RIGHTY: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y));
-    }
-
     onDown(button, value) {
         if (button.buttonCode === Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) {
             this.right.fireGun();
