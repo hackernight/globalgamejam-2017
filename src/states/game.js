@@ -30,7 +30,7 @@ class Game extends Phaser.State {
 
         this.pad1 = this.game.input.gamepad.pad1;
 
-        this.pad1.addCallbacks(this, { onConnect: this.addButtons });
+        this.addButtons();
 
         this.game.input.onDown.add(() => {
             this.shoot();
