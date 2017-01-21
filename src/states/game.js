@@ -1,11 +1,19 @@
 import PlayerBody from '../prefabs/playerBody';
 import PlayerArm from '../prefabs/playerArm';
 import EnemyPointy from '../prefabs/enemyPointy';
+import Heart from '../prefabs/heart';
+
 class Game extends Phaser.State {
 
-
     create() {
-        this.player = new PlayerBody(this.game);
+        this.health = 3;
+        this.player = new PlayerBody(this.game, this.health);
+        this.hearts = [];
+
+        for (let i = 0; i < this.health; ++i) {
+            this.hearts.push(new Heart(this.game, i * 90, 0));
+        }
+
         this.player.enableBody = true;
         this.player.physicsBodyType = Phaser.Physics.ARCADE;
         this.gun = this.game.add.weapon(30, 'projectile');
