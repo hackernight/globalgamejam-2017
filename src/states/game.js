@@ -19,6 +19,10 @@ class Game extends Phaser.State {
         this.gun = this.game.add.weapon(30, 'projectile');
         this.right = new PlayerArm(this.game, 0, this.gun, this.shoot);
         this.left = new PlayerArm(this.game, 180, this.gun, this.shoot);
+        this.player.events.onKilled.add(() => {
+            this.right.kill();
+            this.left.kill();
+        });
 
         this.enemies = this.game.add.group();
         this.enemies.enableBody = true;
