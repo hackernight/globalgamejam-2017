@@ -30,7 +30,7 @@ class Game extends Phaser.State {
 
         this.pad1 = this.game.input.gamepad.pad1;
 
-        
+        this.pad1.addCallbacks(this, { onConnect: this.addButtons });
 
         this.game.input.onDown.add(() => {
             this.shoot();
@@ -42,6 +42,24 @@ class Game extends Phaser.State {
         console.log("LEFTY: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y));
         console.log("RIGHTX: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X));
         console.log("RIGHTY: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y));
+    }
+
+    onDown (button, value) {
+
+      if (button.buttonCode === Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) {
+          console.log("RIGHT TRIGGER");
+      } else if (button.buttonCode === Phaser.Gamepad.XBOX360_LEFT_TRIGGER) {
+          console.log("LEFT TRIGGER");
+      }
+
+    }
+
+    addButtons() {
+      this.leftTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
+      this.rightTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
+
+      this.leftTrigger.onDown.add(this.onDown, this);
+      this.rightTrigger.onDown.add(this.onDown, this);
     }
 
     update() {
