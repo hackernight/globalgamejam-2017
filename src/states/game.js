@@ -16,13 +16,17 @@ class Game extends Phaser.State {
 
         this.player.enableBody = true;
         this.player.physicsBodyType = Phaser.Physics.ARCADE;
-        this.gun = this.game.add.weapon(30, 'projectile');
-        this.right = new PlayerArm(this.game, 0, this.gun, this.shoot);
-        this.left = new PlayerArm(this.game, 180, this.gun, this.shoot);
+        this.rightGun = this.game.add.weapon(30, 'projectile');
+        this.rightGun.fireRate = 250;
+        this.leftGun = this.game.add.weapon(30, 'projectile');
+        this.leftGun.fireRate = 250;
+        this.right = new PlayerArm(this.game, 0, this.rightGun);
+        this.left = new PlayerArm(this.game, 180, this.leftGun);
         this.player.events.onKilled.add(() => {
             this.right.kill();
             this.left.kill();
-            this.gun.destroy();
+            this.rightGun.destroy();
+            this.leftGun.destroy();
 
             this.game.state.start('gameover', false, true);
         });
@@ -44,40 +48,7 @@ class Game extends Phaser.State {
 
         this.pad1 = this.game.input.gamepad.pad1;
 
-        this.addButtons();
-
-        this.game.input.onDown.add(() => {
-            this.shoot();
-        });
         this.music = this.game.sound.play('music-level', 0.4);
-    }
-
-    dump() {
-        //console.log("LEFTX: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X));
-        //console.log("LEFTY: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y));
-        //console.log("RIGHTX: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X));
-        //console.log("RIGHTY: " + this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y));
-    }
-
-    onDown(button, value) {
-        if (button.buttonCode === Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) {
-            this.right.fireGun();
-        } else if (button.buttonCode === Phaser.Gamepad.XBOX360_LEFT_TRIGGER) {
-            this.left.fireGun();
-        }
-
-    }
-
-    addButtons() {
-        this.leftTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
-        this.rightTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
-
-        if (!!this.leftTrigger) {
-            this.leftTrigger.onDown.add(this.onDown, this);
-        }
-        if (!!this.rightTrigger) {
-            this.rightTrigger.onDown.add(this.onDown, this);
-        }
     }
 
     update() {
@@ -88,7 +59,16 @@ class Game extends Phaser.State {
         if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0) {
             this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
         }
-        this.game.physics.arcade.overlap(this.enemies, this.gun.bullets, this.bulletCollision, null, this);
+
+        if (this.pad1.isDown(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER)) {
+            this.right.fireGun();
+        }
+        if (this.pad1.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)) {
+            this.left.fireGun();
+        }
+
+        this.game.physics.arcade.overlap(this.enemies, this.right.gun.bullets, this.bulletCollision, null, this);
+        this.game.physics.arcade.overlap(this.enemies, this.left.gun.bullets, this.bulletCollision, null, this);
         this.game.physics.arcade.overlap(this.enemies, this.player, this.playerEnemyCollision, null, this);
     }
 
@@ -112,12 +92,6 @@ class Game extends Phaser.State {
         deadHeart.destroy();
     }
 
-    shoot() {
-        this.gun.fire(this.player);
-        const key = this.game.rnd.pick(this.game.global.fireSounds);
-        this.game.sound.play(key, 0.4);
-    }
-
     endGame() {
         this.game.state.start('gameover');
     }
@@ -128,12 +102,6 @@ class Game extends Phaser.State {
 
 
     shutdown() {
-        if (!!this.leftTrigger) {
-            this.leftTrigger.onDown.removeAll();
-        }
-        if (!!this.rightTrigger) {
-            this.rightTrigger.onDown.removeAll();
-        }
         this.music.stop();
     }
 
