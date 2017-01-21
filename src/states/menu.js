@@ -1,16 +1,21 @@
+import MenuText from '../prefabs/menuText';
+import BackgroundImage from '../prefabs/backgroundImage';
+
 class Menu extends Phaser.State {
 
-    constructor() {
-        super();
-    }
-
     create() {
-        var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5, 'MENU', {
-            font: '42px Arial',
-            fill: '#ffffff',
-            align: 'center'
-        });
-        text.anchor.set(0.5);
+        new BackgroundImage(this.game, 'introscreen');
+        new MenuText(this.game, this.game.height * 0.2, 'Detective Waverton and the 99 Red Balloons');
+        const startText = new MenuText(this.game, this.game.height * 0.5, 'Shoot to start!');
+        const startY = startText.y;
+
+        var tween = this.game.add.tween(startText).to({
+            y: startY + 50
+        }, 500, Phaser.Easing.Exponential.Out, true, 0, -1);
+
+        //  And this tells it to yoyo, i.e. fade back to zero again before repeating.
+        //  The 3000 tells it to wait for 3 seconds before starting the fade back.
+        tween.yoyo(true);
 
         this.game.input.onDown.add(() => {
             this.startGame();
