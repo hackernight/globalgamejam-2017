@@ -16,13 +16,15 @@ class Game extends Phaser.State {
 
         this.player.enableBody = true;
         this.player.physicsBodyType = Phaser.Physics.ARCADE;
-        this.gun = this.game.add.weapon(30, 'projectile');
-        this.right = new PlayerArm(this.game, 0, this.gun, this.shoot);
-        this.left = new PlayerArm(this.game, 180, this.gun, this.shoot);
+        this.rightGun = this.game.add.weapon(30, 'projectile');
+        this.leftGun = this.game.add.weapon(30, 'projectile');
+        this.right = new PlayerArm(this.game, 0, this.rightGun);
+        this.left = new PlayerArm(this.game, 180, this.leftGun);
         this.player.events.onKilled.add(() => {
             this.right.kill();
             this.left.kill();
-            this.gun.destroy();
+            this.rightGun.destroy();
+            this.leftGun.destroy();
 
             this.game.state.start('gameover', false, true);
         });
@@ -44,9 +46,6 @@ class Game extends Phaser.State {
 
         this.pad1 = this.game.input.gamepad.pad1;
 
-        this.game.input.onDown.add(() => {
-            this.shoot();
-        });
         this.music = this.game.sound.play('music-level', 0.4);
     }
 
@@ -66,7 +65,7 @@ class Game extends Phaser.State {
             this.left.fireGun();
         }
 
-        this.game.physics.arcade.overlap(this.enemies, this.gun.bullets, this.bulletCollision, null, this);
+        this.game.physics.arcade.overlap(this.enemies, this.rightGun.bullets, this.bulletCollision, null, this);
         this.game.physics.arcade.overlap(this.enemies, this.player, this.playerEnemyCollision, null, this);
     }
 
@@ -88,12 +87,6 @@ class Game extends Phaser.State {
         player.damage(1);
         const deadHeart = this.hearts.pop();
         deadHeart.destroy();
-    }
-
-    shoot() {
-        this.gun.fire(this.player);
-        const key = this.game.rnd.pick(this.game.global.fireSounds);
-        this.game.sound.play(key, 0.4);
     }
 
     endGame() {
