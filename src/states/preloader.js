@@ -27,6 +27,7 @@ class Preloader extends Phaser.State {
     loadResources() {
         // Art
         this.game.load.image('enemyPointy', 'assets/enemy-pointy.png');
+        this.game.load.image('enemyBalloon', 'assets/AngryBalloon.png');
         this.game.load.image('playerArm', 'assets/wavyman-arm.png');
         this.game.load.image('playerBody', 'assets/wavyman-body.png');
         this.game.load.image('projectile', 'assets/projectile.png');

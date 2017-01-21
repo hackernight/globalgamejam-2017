@@ -3,9 +3,11 @@ class EnemyPointy extends Phaser.Sprite {
 
     //initialization code in the constructor
     constructor(game, x, y, player) {
-        super(game, x, y, 'enemyPointy');
+        super(game, x, y, 'enemyBalloon');
         game.add.existing(this);
         this.Player = player;
+        const scale = 0.15;
+        this.scale.setTo(scale, scale);
         this.anchor.setTo(0.5,0.5);
     }
 
