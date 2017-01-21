@@ -17,16 +17,16 @@ class Game extends Phaser.State {
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
 
         for (let i = 0; i < 10; ++i) {
-            // const minimumEdgeBuffer = 100;
-            // let x = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.width / 2 - minimumEdgeBuffer);
-            // if (x > this.game.world.width / 4) {
-            //     x += this.game.world.width / 2;
-            // }
-            // let y = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.height / 2 - minimumEdgeBuffer);
-            // if (y > this.game.world.height / 4) {
-            //     y += this.game.world.height / 2;
-            // }
-            this.enemies.add(new EnemyPointy(this.game, this.player.x - 20, this.player.y - 200 - i, this.player));
+            const minimumEdgeBuffer = 100;
+            let x = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.width / 2 - minimumEdgeBuffer);
+            if (x > this.game.world.width / 4) {
+                x += this.game.world.width / 2;
+            }
+            let y = this.game.rnd.integerInRange(minimumEdgeBuffer, this.game.world.height / 2 - minimumEdgeBuffer);
+            if (y > this.game.world.height / 4) {
+                y += this.game.world.height / 2;
+            }
+            this.enemies.add(new EnemyPointy(this.game, x, y, this.player));
 
         }
 
