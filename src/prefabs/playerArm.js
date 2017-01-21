@@ -3,14 +3,16 @@
 class PlayerArm extends Phaser.Sprite {
 
   //initialization code in the constructor
-  constructor(game, x, y, frame) {
-    super(game, x, y, 'playerArm', frame);
+  constructor(game, x, y) {
+    super(game, x, y, 'playerArm');
+    this.anchor.setTo(0.5, 0.5);
+    // this.game.physics.enable(this, Phaser.Physics.ARCADE);
     this.game.add.existing(this);
   }
 
   //Code ran on each frame of game
   update() {
-
+    this.angle += 1;
   }
 
 }
