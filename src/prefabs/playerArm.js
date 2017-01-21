@@ -1,3 +1,4 @@
+import MidArmSection from '../prefabs/midArmsection';
 //Documentation for Phaser's (2.6.2) sprites:: phaser.io/docs/2.6.2/Phaser.Sprite.html
 class PlayerArm extends Phaser.Sprite {
     //initialization code in the constructor
@@ -10,6 +11,17 @@ class PlayerArm extends Phaser.Sprite {
         this.game.add.existing(this);
         this.gun = gun;
         this.shoot = shoot;
+        this.nextSection = new MidArmSection(
+          game,
+          this.getTipX(),
+          this.getTipY(),
+          this.angle,
+          1
+        );
+
+        this.events.onKilled.add(() => {
+            this.nextSection.kill();
+        });
     }
 
     //Code ran on each frame of game
@@ -18,15 +30,24 @@ class PlayerArm extends Phaser.Sprite {
 
     setTargetAngle(angleIn) {
         this.angle = angleIn;
+        this.nextSection.changeBase(this.getTipX(), this.getTipY(), this.angle)
+    }
+
+    getTipX() {
+      return (Math.cos(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.x;
+    }
+
+    getTipY() {
+      return (Math.sin(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.y;
     }
 
     fireGun() {
       this.gun.fireAngle = this.angle;
-      this.gun.fireFrom.x = (Math.cos(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.x;
-      this.gun.fireFrom.y = (Math.sin(Phaser.Math.degToRad(this.angle)) * (this.width+25)) + this.y;
+      this.gun.fireFrom.x = this.getTipX();
+      this.gun.fireFrom.y = this.getTipY();
 
-      console.log("X: " + this.gun.fireFrom.x);
-      console.log("Y: " + this.gun.fireFrom.y);
+      //console.log("X: " + this.gun.fireFrom.x);
+      //console.log("Y: " + this.gun.fireFrom.y);
 
       this.shoot();
     }

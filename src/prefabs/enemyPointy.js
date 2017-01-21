@@ -12,6 +12,20 @@ class EnemyPointy extends Phaser.Sprite {
       if (y > game.world.height / 4) {
           y += game.world.height / 2;
       }
+      //one dimension has to be the min/max of the length/width to spawn offscreen
+      let offscreenEdge = game.rnd.integerInRange(1, 4);
+      if (offscreenEdge==1){
+        x = -minimumEdgeBuffer;
+      }
+      if (offscreenEdge==2){
+        x = game.world.width + minimumEdgeBuffer;
+      }
+      if (offscreenEdge==3){
+        y = -minimumEdgeBuffer;
+      }
+      if (offscreenEdge==4){
+        y = game.world.height + minimumEdgeBuffer;
+      }
 
         super(game, x, y, 'enemyBalloon');
         game.add.existing(this);
@@ -20,9 +34,9 @@ class EnemyPointy extends Phaser.Sprite {
         this.scale.setTo(scale, scale);
         this.anchor.setTo(0.5,0.5);
 
-        this.targetX = this.game.rnd.integerInRange(0, this.game.world.width);;
-        this.targetY = this.game.rnd.integerInRange(0, this.game.world.height);;
-        this.refreshrate = (this.game.rnd.integerInRange(1, 6))/2;
+        this.targetX = this.player.x;
+        this.targetY = this.player.y;
+        this.refreshrate = (this.game.rnd.integerInRange(1, 4))/2;
 
         this.game.time.events.loop(Phaser.Timer.SECOND * this.refreshrate, () => {
               this.makeMove();
@@ -51,13 +65,13 @@ class EnemyPointy extends Phaser.Sprite {
       this.targetY = this.targetY + courseChange1;
       this.targetX = this.targetX + courseChange2;
 
-      if (this.targetX > this.game.world.width || this.targetX < 0 || this.targetY > this.game.world.height || this.targetY < 0){
+      if (this.targetX > this.game.world.width || this.targetX < 0 || this.targetY > this.game.world.height || this.targetY < 0 ){
         //suddenly focus on player again
         this.targetX = this.player.x;
         this.targetY = this.player.y;
       }
 
-      this.game.physics.arcade.moveToXY(this, this.targetX, this.targetY, 180);
+      this.game.physics.arcade.moveToXY(this, this.targetX, this.targetY, 50);
 
         //if (this.movementAction == "Random"){
         //  this.body.velocity.x = 0;
