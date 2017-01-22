@@ -38,6 +38,7 @@ class EnemyAviator extends Phaser.Sprite {
         const scale = 0.15;
         this.scale.setTo(scale, scale);
         this.anchor.setTo(0.5, 0.5);
+        this.health = 2;
 
         this.targetX = this.player.x;
         this.targetY = this.player.y;

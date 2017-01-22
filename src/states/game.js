@@ -14,8 +14,8 @@ class Game extends Phaser.State {
         const health = 3;
         this.hearts = [];
         this.player = new PlayerBody(this.game, health);
-        this.balloonsToSpawn = 9;
-        this.balloonsToKill = 9;
+        this.balloonsToSpawn = 3;
+        this.balloonsToKill = 3;
         let scorestartingX = this.game.world.centerX + (this.game.world.centerX / 3);
         this.balloonsAtLargeText = this.game.add.text(scorestartingX, 50,
             "Balloons At Large: " + this.balloonsToKill, {
@@ -61,7 +61,7 @@ class Game extends Phaser.State {
 
         this.enemies = this.game.add.group();
 
-        const initialSpawnCount = 5;
+        const initialSpawnCount = 1;
         for (let i = 0; i < initialSpawnCount; ++i) {
             this.spawnEnemy();
         }
@@ -115,20 +115,22 @@ class Game extends Phaser.State {
     }
 
     enemyDeath(enemy) {
-        const anim = enemy.animations.play('die', 12, false);
-        enemy.body.checkCollision.none = true;
-        anim.onComplete.add(() => {
-            console.log("ded");
-            enemy.damage(1)
-        });
-        this.balloonsToKill = this.balloonsToKill - 1;
-        this.balloonsAtLargeText.text = "Balloons At Large: " + this.balloonsToKill;
-        if (this.balloonsToKill == 0) {
-            this.endGame();
-        }
+        enemy.damage(1);
+        if (enemy.health <= 1) {
+            const anim = enemy.animations.play('die', 12, false);
+            enemy.body.checkCollision.none = true;
+            anim.onComplete.add(() => {
+                enemy.kill();
+                this.balloonsToKill = this.balloonsToKill - 1;
+                this.balloonsAtLargeText.text = "Balloons At Large: " + this.balloonsToKill;
+                if (this.balloonsToKill == 0) {
+                    this.endGame();
+                }
 
-        if (this.balloonsToKill === 1) {
-            this.enemies.add(new EnemyBoss(this.game, this.player));
+                if (this.balloonsToKill === 1) {
+                    this.enemies.add(new EnemyBoss(this.game, this.player));
+                }
+            });
         }
     }
 
