@@ -26,20 +26,7 @@ class Menu extends Phaser.State {
                 Phaser.Easing.Bounce.Out,
                 true
             );
-            tween.onComplete.add(() => {
-                this.game.add.tween(wipeoutText).to(
-                    {alpha: 0.3},
-                    2000,
-                    Phaser.Easing.Linear.In,
-                    true
-                );
-                this.game.add.tween(wipeoutBG).to(
-                    {alpha: 0.3},
-                    2000,
-                    Phaser.Easing.Linear.In,
-                    true
-                );
-            });
+            tween.chain(this.createFadeoutTween(wipeoutBG), this.createFadeoutTween(wipeoutText));
         }
 
         message += "\n(Press X to continue)"
@@ -51,6 +38,15 @@ class Menu extends Phaser.State {
                 this.createText(message);
             }, this);
         }
+    }
+
+    createFadeoutTween(object) {
+        return this.game.add.tween(object).to(
+            {alpha: 0.3},
+            2000,
+            Phaser.Easing.Linear.In,
+            true
+        );
     }
 
     createText(message) {
