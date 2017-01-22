@@ -31,9 +31,6 @@ class EnemyAviator extends Phaser.Sprite {
         game.add.existing(this);
 
         this.animations.add('die');
-        this.events.onKilled.add(() => {
-            this.animations.play('die', 30, false);
-        });
 
         this.player = player;
         const scale = 0.15;

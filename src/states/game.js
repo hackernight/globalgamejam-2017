@@ -96,7 +96,7 @@ class Game extends Phaser.State {
     }
 
     bulletCollision(enemy, bullet) {
-        enemy.kill();
+        this.enemyDeath(enemy);
         const key = this.game.rnd.pick(this.game.global.killSounds);
         this.game.sound.play(key, 0.4);
         bullet.kill();
@@ -108,12 +108,20 @@ class Game extends Phaser.State {
     }
 
     playerEnemyCollision(player, enemy) {
-        enemy.kill();
+        this.enemyDeath(enemy);
         const key = this.game.rnd.pick(this.game.global.deathSounds);
         this.game.sound.play(key, 0.4);
         player.damage(1);
         const deadHeart = this.hearts.pop();
         deadHeart.destroy();
+    }
+
+    enemyDeath(enemy) {
+        const anim = enemy.animations.play('die', 30, false);
+        enemy.body.checkCollision.none = true;
+        anim.onComplete.add(() => {
+            console.log("ded");
+            enemy.damage(1)});
     }
 
     endGame() {
