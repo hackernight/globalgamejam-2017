@@ -5,10 +5,12 @@ import EnemyVillain from '../prefabs/enemyVillain';
 import EnemyBoss from '../prefabs/enemyBoss';
 import EnemyZepplin from '../prefabs/enemyZepplin';
 import Heart from '../prefabs/heart';
+import TiledBG from '../prefabs/tiledBG';
 
 class Game extends Phaser.State {
 
     create() {
+        new TiledBG(this.game);
         const health = 3;
         this.hearts = [];
         this.player = new PlayerBody(this.game, health);
@@ -19,6 +21,8 @@ class Game extends Phaser.State {
             "Balloons At Large: " + this.balloonsToKill, {
                 font: "65px Arial",
                 fill: "#ff0044",
+                stroke: 0x333333,
+                strokeThickness: 5,
                 align: "center"
             });
         this.balloonsAtLargeText.anchor.set(0.5);
