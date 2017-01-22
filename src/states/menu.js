@@ -5,7 +5,7 @@ class Menu extends Phaser.State {
 
     create() {
         new BackgroundImage(this.game, 'introscreen');
-        new MenuText(this.game, this.game.height * 0.2, 'Detective Waverton and the 99 Red Balloons');
+        new MenuText(this.game, this.game.height * 0.2, 'Officer Waverton and the 99 Red Balloons');
         const startText = new MenuText(this.game, this.game.height * 0.5, 'Shoot to start!');
         const startY = startText.y;
         this.canAcceptInput = false;

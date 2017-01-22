@@ -3,17 +3,24 @@ class Menu extends Phaser.State {
   constructor() {
     super();
   }
-  init(gameWon){
+  init(gameWon, stillAlive){
     this.gameWon = gameWon;
+    this.stillAlive = stillAlive;
+
   }
 
   create() {
     let message = 'Gameover';
     if (this.gameWon==true){
-      message = "Officer Waverton can finally rest,\n his partner's brutal murder avenged."
+      if (this.stillAlive==true){
+          message = "Officer Waverton can finally rest,\n his partner's brutal murder avenged."
+      }
+      else {
+          message = "Officer Waverton selflessly gave his life\nto ensure the Luftballoons wouldn't hurt\nanyone else, ever again"
+      }
     }
     else {
-      message = "Officer Waverton failed\n in his quest for justice.\n The city remains in danger\n from the Gang of 99."
+      message = "Officer Waverton failed\n in his quest for justice.\n The city remains in fear\nof the Gang of 99."
     }
 
     message += "\n(Press X to continue)"
