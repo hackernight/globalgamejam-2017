@@ -25,14 +25,18 @@ class Preloader extends Phaser.State {
     }
 
     loadResources() {
-        // Art
-        this.game.load.image('enemyPointy', 'assets/enemy-pointy.png');
-        this.game.load.image('enemyBalloon', 'assets/AngryBalloon.png');
+        // Enemy Art
+        this.game.load.spritesheet('enemyAviator', 'assets/UpsetAviatorExp1-sheet-627-734.png', 627, 734);
+        this.game.load.spritesheet('enemyVillain', 'assets/VerticalVillianExp1-sheet-627-723.png', 627, 723);
+        this.game.load.spritesheet('enemyZepplin', 'assets/ZealousZepplinExp1-sheet-627-547.png', 627, 547);
+        this.game.load.spritesheet('enemyBoss', 'assets/BigBossBalloon1-sheet-755-680.png', 755, 680);
+
+        // other Art
         this.game.load.image('playerArm', 'assets/wavyman-arm.png');
         this.game.load.image('midArmSection', 'assets/wavyman-arm.png');
         this.game.load.image('playerBody', 'assets/wavyman-body.png');
         this.game.load.image('projectile', 'assets/projectile.png');
-        this.game.load.image('heart', 'assets/heart.png');
+        this.game.load.spritesheet('heart', 'assets/heart-sheet.png', 64, 64, 8);
         this.game.load.image('introscreen', 'assets/introscreen.png');
 
         // Sound
