@@ -10,6 +10,7 @@ class Menu extends Phaser.State {
     }
 
     create() {
+        this.game.time.slowMotion = 1.0 //clear any lingering slow-mo
         let message = 'Gameover';
         let tween;
         if (this.gameWon === true) {

@@ -5,6 +5,7 @@ import OfficerWaverton from '../prefabs/OfficerWaverton';
 class Menu extends Phaser.State {
 
     create() {
+      this.game.time.slowMotion = 1.0 //clear any lingering slow-mo
         //new BackgroundImage(this.game, 'introscreen');
         this.officerWaverton = new OfficerWaverton(this.game, 0, this.game.height * .5);
         new MenuText(this.game, this.game.height * 0.2, 'Officer Waverton and the Luft Balloons');

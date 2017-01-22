@@ -10,6 +10,7 @@ import TiledBG from '../prefabs/tiledBG';
 class Game extends Phaser.State {
 
     create() {
+        this.game.time.slowMotion = 1.0 //clear any lingering slow-mo
         this.background = new TiledBG(this.game);
         const health = 3;
         this.hearts = [];
@@ -106,6 +107,7 @@ class Game extends Phaser.State {
     }
 
     playerEnemyCollision(player, enemy) {
+        this.game.time.slowMotion = 5.0;
         player.damage(1);
         this.background.tint = 0xff0000;
         this.game.time.events.add(Phaser.Timer.SECOND * .1, () => {
@@ -121,6 +123,10 @@ class Game extends Phaser.State {
     enemyDeath(enemy) {
         enemy.damage(1);
         if (enemy.health <= 1) {
+
+          this.game.time.slowMotion = 4.0;
+          this.game.time.events.add(Phaser.Timer.SECOND * 0.5, () =>{  this.game.time.slowMotion = 1.0}, this);
+
             const anim = enemy.animations.play('die', 12, false);
             enemy.body.checkCollision.none = true;
             anim.onComplete.add(() => {
@@ -139,6 +145,7 @@ class Game extends Phaser.State {
     }
 
     endGame() {
+        this.game.time.slowMotion = 20.0;
         this.balloonsAtLargeText.text = "";
         const wipeScreen = !(this.player.health > 0);
         this.game.state.start('gameover', wipeScreen, false, (this.balloonsToKill <= 0), (this.player.health > 0));
