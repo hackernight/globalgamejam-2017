@@ -48,7 +48,6 @@ class Game extends Phaser.State {
             this.game.sound.play(key, 0.4);
         });
 
-
         this.right = new PlayerArm(this.game, 0, this.rightGun);
         this.left = new PlayerArm(this.game, 180, this.leftGun);
         this.player.events.onKilled.add(() => {
@@ -62,14 +61,12 @@ class Game extends Phaser.State {
 
         this.enemies = this.game.add.group();
 
-        this.game.time.events.loop(Phaser.Timer.SECOND, this.spawnEnemy, this);
-
-        const enemyCount = 5;
-        for (let i = 0; i < enemyCount; ++i) {
-
+        const initialSpawnCount = 5;
+        for (let i = 0; i < initialSpawnCount; ++i) {
             this.spawnEnemy();
-
         }
+
+        this.game.time.events.repeat(Phaser.Timer.SECOND, this.balloonsToSpawn - 1 - initialSpawnCount, this.spawnEnemy, this);
 
         this.pad1 = this.game.input.gamepad.pad1;
 
@@ -129,20 +126,21 @@ class Game extends Phaser.State {
         if (this.balloonsToKill == 0) {
             this.endGame();
         }
+
+        if (this.balloonsToKill === 1) {
+            this.enemies.add(new EnemyBoss(this.game, this.player));
+        }
     }
 
     endGame() {
         this.balloonsAtLargeText.text = "";
-        this.game.state.start('gameover', false, true, (this.balloonsToKill <= 0));
+        this.game.state.start('gameover', false, true, (this.balloonsToKill <= 0), (this.player.health > 0));
     }
 
     spawnEnemy() {
-        const enemies = [EnemyAviator, EnemyBoss, EnemyVillain, EnemyZepplin];
-        this.balloonsToSpawn = this.balloonsToSpawn - 1;
-        if (this.balloonsToSpawn > -1) {
-            const classToSpawn = this.game.rnd.pick(enemies);
-            this.enemies.add(new classToSpawn(this.game, this.player));
-        }
+        const enemies = [EnemyAviator, EnemyVillain, EnemyZepplin];
+        const classToSpawn = this.game.rnd.pick(enemies);
+        this.enemies.add(new classToSpawn(this.game, this.player));
     }
 
     render() {}

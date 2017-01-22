@@ -7,7 +7,7 @@ class Menu extends Phaser.State {
     create() {
         //new BackgroundImage(this.game, 'introscreen');
         this.officerWaverton = new OfficerWaverton(this.game, 0, this.game.height * .5);
-        new MenuText(this.game, this.game.height * 0.2, 'Detective Waverton and the 99 Red Balloons');
+        new MenuText(this.game, this.game.height * 0.2, 'Officer Waverton and the Luft Balloons');=
         const startText = new MenuText(this.game, this.game.height * 0.5, 'Shoot to start!');
         const startY = startText.y;
         this.canAcceptInput = false;
@@ -21,7 +21,7 @@ class Menu extends Phaser.State {
             align: 'center'
         };
         const credittext = this.add.text(this.game.width * 0.5, this.game.height * 0.9,
-                  'Press X to view credits\n Press A to configure controls', style);
+                  'Press X to view credits\n Press A for input options', style);
         credittext.anchor.setTo(0.5, 0.5);
 
 
@@ -46,12 +46,16 @@ class Menu extends Phaser.State {
     update() {
       if (this.canAcceptInput == true){
         //console.log(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y));
-      if (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft()) {
+      if (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft() ||
+          this.game.global.controlSettings.isChangingRightAngle() || this.game.global.controlSettings.isChangingLeftAngle()) {
           this.startGame();
       }
-        if (this.game.global.controlSettings.isPressingX()) {
+      if (this.game.global.controlSettings.isPressingX()) {
             this.game.state.start('credits');
-        }
+      }
+      if (this.game.global.controlSettings.isPressingA()) {
+            this.game.state.start('controls');
+      }
     }
   }
 
