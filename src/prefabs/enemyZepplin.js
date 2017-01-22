@@ -31,6 +31,8 @@ class EnemyZepplin extends Phaser.Sprite {
         game.add.existing(this);
 
         this.animations.add('die');
+        game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.body.setCircle(40, this.width/2 - 40, this.height/2 - 40);
 
         this.player = player;
         const scale = 0.15;

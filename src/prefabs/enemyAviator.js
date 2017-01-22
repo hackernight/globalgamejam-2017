@@ -29,6 +29,8 @@ class EnemyAviator extends Phaser.Sprite {
 
         super(game, x, y, 'enemyAviator');
         game.add.existing(this);
+        game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.body.setSize(this.width - 200, this.height - 220, 100, 20);
 
         this.animations.add('die');
 

@@ -24,7 +24,12 @@ class Menu extends Phaser.State {
 
     this.saveVarsToLocalStorage();
 
-    this.music = this.game.sound.play('music-gameover', 0.4);
+    if (this.gameWon==true){
+      this.music = this.game.sound.play('music-victory', 0.4);
+    }
+    else {
+      this.music = this.game.sound.play('music-gameover', 0.4);
+    }
   }
 
   saveVarsToLocalStorage(){

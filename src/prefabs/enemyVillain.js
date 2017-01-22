@@ -29,6 +29,8 @@ class EnemyVillain extends Phaser.Sprite {
 
         super(game, x, y, 'enemyVillain');
         game.add.existing(this);
+        game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.body.setSize(this.width - 280, this.height - 80, 160, 20);
 
         this.animations.add('die');
 
