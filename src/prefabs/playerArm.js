@@ -7,6 +7,9 @@ class PlayerArm extends Phaser.Sprite {
         super(game, game.world.centerX, game.world.centerY, 'playerArm');
         this.wobbledyFactor=8;
         this.springyFactor = 2;
+        this.manditoryWibble =3;
+        this.wibbleDirection = 1;
+        this.manditoryAngleMod = 0;
         this.anchor.setTo(0.5, 0.5);
         this.pivot.x = -55;
         this.angle = angle;
@@ -30,13 +33,21 @@ class PlayerArm extends Phaser.Sprite {
 
     //Code ran on each frame of game
     update() {
+      this.manditoryAngleMod += this.manditoryWibble * this.wibbleDirection;
+      if(Math.abs(this.manditoryAngleMod) > 20 ) {
+        this.wibbleDirection = -this.wibbleDirection;
+      }
+      console.log(this.manditoryWibble);
+
+      var compositeAngle = this.angle + this.manditoryAngleMod;
+
       if(this.body.angularVelocity != 0) {
-        this.body.angularVelocity += this.smallestAngle(this.parentAngle, this.angle) * this.springyFactor - (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*this.wobbledyFactor)) - Math.sign(this.body.angularVelocity) * 2;
+        this.body.angularVelocity += this.smallestAngle(this.parentAngle, compositeAngle) * this.springyFactor - (Math.pow(this.body.angularVelocity,2) / (this.body.angularVelocity*this.wobbledyFactor)) - Math.sign(this.body.angularVelocity) * 2;
       } else {
-        this.body.angularVelocity += this.smallestAngle(this.parentAngle,this.angle) * this.springyFactor;
+        this.body.angularVelocity += this.smallestAngle(this.parentAngle, compositeAngle) * this.springyFactor;
       }
       if(this.nextSection) {
-        this.nextSection.changeBase(this.getTipX(), this.getTipY(), this.angle);
+        this.nextSection.changeBase(this.getTipX(), this.getTipY(), compositeAngle);
       }
     }
 
