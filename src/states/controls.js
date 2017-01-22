@@ -7,7 +7,13 @@ class Controls extends Phaser.State {
 
   create() {
     this.canAcceptInput = false;
-    var style = { font: "30px Arial", fill: "#ffffff", align: "center" };
+    var style = {
+            font: '30px Arial',
+            fill: '#ffffff',
+            stroke: 0x333333,
+            strokeThickness: 3,
+            align: 'center'
+        };
     let text1 = this.add.text(this.game.world.centerX, this.game.height * 0.2,
       'We recommend using an Xbox 360 controller\nfor the optimal WWIAFTM experience', style);
     text1.anchor.set(0.5);
