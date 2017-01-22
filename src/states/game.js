@@ -16,7 +16,11 @@ class Game extends Phaser.State {
         this.balloonsToKill = 9;
         let scorestartingX = this.game.world.centerX + (this.game.world.centerX / 3);
         this.balloonsAtLargeText = this.game.add.text(scorestartingX, 50,
-            "Balloons At Large: " + this.balloonsToKill, { font: "65px Arial", fill: "#ff0044", align: "center" });
+            "Balloons At Large: " + this.balloonsToKill, {
+                font: "65px Arial",
+                fill: "#ff0044",
+                align: "center"
+            });
         this.balloonsAtLargeText.anchor.set(0.5);
 
 
@@ -30,14 +34,14 @@ class Game extends Phaser.State {
         this.rightGun = this.game.add.weapon(30, 'projectile');
         this.rightGun.fireRate = 1000;
         this.rightGun.onFire.add(() => {
-          const key = this.game.rnd.pick(this.game.global.fireSounds);
-          this.game.sound.play(key, 0.4);
+            const key = this.game.rnd.pick(this.game.global.fireSounds);
+            this.game.sound.play(key, 0.4);
         });
         this.leftGun = this.game.add.weapon(30, 'projectile');
         this.leftGun.fireRate = 1000;
         this.leftGun.onFire.add(() => {
-          const key = this.game.rnd.pick(this.game.global.fireSounds);
-          this.game.sound.play(key, 0.4);
+            const key = this.game.rnd.pick(this.game.global.fireSounds);
+            this.game.sound.play(key, 0.4);
         });
 
 
@@ -53,8 +57,6 @@ class Game extends Phaser.State {
         });
 
         this.enemies = this.game.add.group();
-        this.enemies.enableBody = true;
-        this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
 
         this.game.time.events.loop(Phaser.Timer.SECOND, this.spawnEnemy, this);
 
@@ -121,23 +123,25 @@ class Game extends Phaser.State {
         enemy.body.checkCollision.none = true;
         anim.onComplete.add(() => {
             console.log("ded");
-            enemy.damage(1)});
+            enemy.damage(1)
+        });
     }
 
     endGame() {
         this.balloonsAtLargeText.text = "";
-        this.game.state.start('gameover', false, true, (this.balloonsToKill <=0));
+        this.game.state.start('gameover', false, true, (this.balloonsToKill <= 0));
     }
 
     spawnEnemy() {
         const enemies = [EnemyAviator, EnemyBoss, EnemyVillain, EnemyZepplin];
         this.balloonsToSpawn = this.balloonsToSpawn - 1;
-        if (this.balloonsToSpawn > -1){
+        if (this.balloonsToSpawn > -1) {
             const classToSpawn = this.game.rnd.pick(enemies);
             this.enemies.add(new classToSpawn(this.game, this.player));
         }
     }
 
+    render() {}
 
     shutdown() {
         this.music.stop();
