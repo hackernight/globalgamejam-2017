@@ -11,6 +11,7 @@ class Game extends Phaser.State {
 
     create() {
         this.game.time.slowMotion = 1.0 //clear any lingering slow-mo
+        this.canAcceptInput = false;
         this.background = new TiledBG(this.game);
         const health = 3;
         this.hearts = [];
@@ -76,10 +77,12 @@ class Game extends Phaser.State {
 
         this.music = this.game.sound.play('music-level', 0.4);
         this.music.loop = true;
+        //wait 2 seconds before we accept input, or it goes stright to credits after end of game
+        this.game.time.events.add(Phaser.Timer.SECOND * .5, () =>{this.canAcceptInput = true}, this);
     }
 
     update() {
-        if (this.player.health > 0){
+        if (this.player.health > 0 && this.canAcceptInput == true){
         if (this.game.global.controlSettings.isChangingLeftAngle()) {
             this.left.setTargetAngle(this.game.global.controlSettings.newLeftAngle());
         }
@@ -144,6 +147,7 @@ class Game extends Phaser.State {
                 }
 
                 if (this.balloonsToKill == 1) {
+                    console.log("Spawning boss!");
                     this.enemies.add(new EnemyBoss(this.game, this.player));
                 }
             });
