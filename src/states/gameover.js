@@ -10,6 +10,7 @@ class Menu extends Phaser.State {
     }
 
     create() {
+        this.game.time.slowMotion = 1.0 //clear any lingering slow-mo
         let message = 'Gameover';
         let tween;
         if (this.gameWon === true) {
@@ -65,7 +66,6 @@ class Menu extends Phaser.State {
             strokeThickness: 5,
             align: "center"
         };
-        console.log(this.game);
         const text = this.game.add.text(this.game.world.centerX, this.game.world.centerY, message, style);
         text.anchor.set(0.5);
         text.alpha = 0;

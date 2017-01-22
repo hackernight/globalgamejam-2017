@@ -38,7 +38,10 @@ class EnemyBoss extends Phaser.Sprite {
         this.scale.set(0.6);
         this.anchor.set(0.5);
 
-        this.health = 3;
+        this.health = 4;
+        this.lastHealth = this.health;
+        this.frameAnimation = 10;
+        this.currentAnimation = 0;
 
         this.targetX = this.player.x;
         this.targetY = this.player.y;
@@ -49,7 +52,21 @@ class EnemyBoss extends Phaser.Sprite {
         }, this);
     }
 
-    update() {}
+    update() {
+        if (this.currentAnimation === this.frameAnimation) {
+            this.frame = 0;
+            this.currentAnimation = 0;
+        }
+
+        if (this.frame === 1) {
+            this.currentAnimation++;
+        }
+
+        if (this.lastHealth !== this.health) {
+            this.frame = 1;
+        }
+        this.lastHealth = this.health;
+    }
 
     makeMove() {
         this.targetX = this.player.x;

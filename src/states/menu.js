@@ -6,6 +6,7 @@ import StaticPositionBalloon from '../prefabs/staticPositionBalloon';
 class Menu extends Phaser.State {
 
     create() {
+      this.game.time.slowMotion = 1.0 //clear any lingering slow-mo
         //new BackgroundImage(this.game, 'introscreen');
         this.game.stage.backgroundColor = "#ADD8E6";
         this.officerWaverton = new OfficerWaverton(this.game, 0, this.game.height * .5);

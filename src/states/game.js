@@ -10,12 +10,14 @@ import TiledBG from '../prefabs/tiledBG';
 class Game extends Phaser.State {
 
     create() {
-        new TiledBG(this.game);
+        this.game.time.slowMotion = 1.0 //clear any lingering slow-mo
+        this.canAcceptInput = false;
+        this.background = new TiledBG(this.game);
         const health = 3;
         this.hearts = [];
         this.player = new PlayerBody(this.game, health);
-        this.balloonsToSpawn = 9;
-        this.balloonsToKill = 9;
+        this.balloonsToSpawn = 20;
+        this.balloonsToKill = 20;
         let scorestartingX = this.game.world.centerX + (this.game.world.centerX / 3);
         this.balloonsAtLargeText = this.game.add.text(scorestartingX, 50,
             "Balloons At Large: " + this.balloonsToKill, {
@@ -55,13 +57,16 @@ class Game extends Phaser.State {
             this.left.kill();
             this.rightGun.destroy();
             this.leftGun.destroy();
+            this.game.time.slowMotion = 4.0;
+            this.game.time.events.add(Phaser.Timer.SECOND * 3, () =>{  this.game.time.slowMotion = 1.0;
+              this.endGame();}, this);
 
-            this.endGame();
+
         });
 
         this.enemies = this.game.add.group();
 
-        const initialSpawnCount = 5;
+        const initialSpawnCount = 1;
         for (let i = 0; i < initialSpawnCount; ++i) {
             this.spawnEnemy();
         }
@@ -72,9 +77,12 @@ class Game extends Phaser.State {
 
         this.music = this.game.sound.play('music-level', 0.4);
         this.music.loop = true;
+        //wait 2 seconds before we accept input, or it goes stright to credits after end of game
+        this.game.time.events.add(Phaser.Timer.SECOND * .5, () =>{this.canAcceptInput = true}, this);
     }
 
     update() {
+        if (this.player.health > 0 && this.canAcceptInput == true){
         if (this.game.global.controlSettings.isChangingLeftAngle()) {
             this.left.setTargetAngle(this.game.global.controlSettings.newLeftAngle());
         }
@@ -92,6 +100,7 @@ class Game extends Phaser.State {
         this.game.physics.arcade.overlap(this.enemies, this.right.gun.bullets, this.bulletCollision, null, this);
         this.game.physics.arcade.overlap(this.enemies, this.left.gun.bullets, this.bulletCollision, null, this);
         this.game.physics.arcade.overlap(this.enemies, this.player, this.playerEnemyCollision, null, this);
+      }
     }
 
     getAngle(X, Y) {
@@ -106,29 +115,42 @@ class Game extends Phaser.State {
     }
 
     playerEnemyCollision(player, enemy) {
-        this.enemyDeath(enemy);
-        const key = this.game.rnd.pick(this.game.global.deathSounds);
-        this.game.sound.play(key, 0.4);
+        this.game.time.slowMotion = 2.0;
         player.damage(1);
+        this.background.tint = 0xff0000;
+        this.game.time.events.add(Phaser.Timer.SECOND * .1, () => {
+            this.background.tint = 0xffffff
+        }, this);
         const deadHeart = this.hearts.pop();
         deadHeart.destroy();
+        const key = this.game.rnd.pick(this.game.global.deathSounds);
+        this.game.sound.play(key, 0.4);
+        this.enemyDeath(enemy);
     }
 
     enemyDeath(enemy) {
-        const anim = enemy.animations.play('die', 12, false);
-        enemy.body.checkCollision.none = true;
-        anim.onComplete.add(() => {
-            console.log("ded");
-            enemy.damage(1)
-        });
-        this.balloonsToKill = this.balloonsToKill - 1;
-        this.balloonsAtLargeText.text = "Balloons At Large: " + this.balloonsToKill;
-        if (this.balloonsToKill == 0) {
-            this.endGame();
-        }
+        enemy.damage(1);
+        if (enemy.health <= 1) {
 
-        if (this.balloonsToKill === 1) {
-            this.enemies.add(new EnemyBoss(this.game, this.player));
+          this.game.time.slowMotion = 4.0;
+          if (this.player.health > 0){
+            this.game.time.events.add(Phaser.Timer.SECOND * 0.5, () =>{  this.game.time.slowMotion = 1.0}, this);
+          }
+            const anim = enemy.animations.play('die', 12, false);
+            enemy.body.checkCollision.none = true;
+            anim.onComplete.add(() => {
+                enemy.kill();
+                this.balloonsToKill = this.balloonsToKill - 1;
+                this.balloonsAtLargeText.text = "Balloons At Large: " + this.balloonsToKill;
+                if (this.balloonsToKill == 0) {
+                    this.endGame();
+                }
+
+                if (this.balloonsToKill == 1) {
+                    console.log("Spawning boss!");
+                    this.enemies.add(new EnemyBoss(this.game, this.player));
+                }
+            });
         }
     }
 
