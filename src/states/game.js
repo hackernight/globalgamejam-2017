@@ -1,6 +1,9 @@
 import PlayerBody from '../prefabs/playerBody';
 import PlayerArm from '../prefabs/playerArm';
-import EnemyPointy from '../prefabs/enemyPointy';
+import EnemyAviator from '../prefabs/enemyAviator';
+import EnemyVillain from '../prefabs/enemyVillain';
+import EnemyBoss from '../prefabs/enemyBoss';
+import EnemyZepplin from '../prefabs/enemyZepplin';
 import Heart from '../prefabs/heart';
 
 class Game extends Phaser.State {
@@ -62,8 +65,6 @@ class Game extends Phaser.State {
 
         }
 
-        this.game.input.gamepad.start();
-
         this.pad1 = this.game.input.gamepad.pad1;
 
         this.music = this.game.sound.play('music-level', 0.4);
@@ -78,11 +79,10 @@ class Game extends Phaser.State {
         if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0) {
             this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
         }
-
-        if (this.pad1.isDown(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER)) {
+        if (this.game.global.controlSettings.shouldShootRight()) {
             this.right.fireGun();
         }
-        if (this.pad1.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)) {
+        if (this.game.global.controlSettings.shouldShootLeft()) {
             this.left.fireGun();
         }
 
@@ -96,7 +96,7 @@ class Game extends Phaser.State {
     }
 
     bulletCollision(enemy, bullet) {
-        enemy.kill();
+        this.enemyDeath(enemy);
         const key = this.game.rnd.pick(this.game.global.killSounds);
         this.game.sound.play(key, 0.4);
         bullet.kill();
@@ -108,12 +108,20 @@ class Game extends Phaser.State {
     }
 
     playerEnemyCollision(player, enemy) {
-        enemy.kill();
+        this.enemyDeath(enemy);
         const key = this.game.rnd.pick(this.game.global.deathSounds);
         this.game.sound.play(key, 0.4);
         player.damage(1);
         const deadHeart = this.hearts.pop();
         deadHeart.destroy();
+    }
+
+    enemyDeath(enemy) {
+        const anim = enemy.animations.play('die', 12, false);
+        enemy.body.checkCollision.none = true;
+        anim.onComplete.add(() => {
+            console.log("ded");
+            enemy.damage(1)});
     }
 
     endGame() {
@@ -122,9 +130,11 @@ class Game extends Phaser.State {
     }
 
     spawnEnemy() {
+        const enemies = [EnemyAviator, EnemyBoss, EnemyVillain, EnemyZepplin];
         this.balloonsToSpawn = this.balloonsToSpawn - 1;
         if (this.balloonsToSpawn > -1){
-            this.enemies.add(new EnemyPointy(this.game, this.player));
+            const classToSpawn = this.game.rnd.pick(enemies);
+            this.enemies.add(new classToSpawn(this.game, this.player));
         }
     }
 
