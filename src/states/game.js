@@ -1,6 +1,6 @@
 import PlayerBody from '../prefabs/playerBody';
 import PlayerArm from '../prefabs/playerArm';
-import EnemyPointy from '../prefabs/enemyPointy';
+import EnemyAviator from '../prefabs/enemyAviator';
 import Heart from '../prefabs/heart';
 
 class Game extends Phaser.State {
@@ -124,7 +124,7 @@ class Game extends Phaser.State {
     spawnEnemy() {
         this.balloonsToSpawn = this.balloonsToSpawn - 1;
         if (this.balloonsToSpawn > -1){
-            this.enemies.add(new EnemyPointy(this.game, this.player));
+            this.enemies.add(new EnemyAviator(this.game, this.player));
         }
     }
 
