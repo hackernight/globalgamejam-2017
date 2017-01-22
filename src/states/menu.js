@@ -45,6 +45,7 @@ class Menu extends Phaser.State {
         });
 
         this.music = this.game.sound.play('music-intro', 0.4);
+        this.music.loop = true;
     }
 
     onDown(button, value) {

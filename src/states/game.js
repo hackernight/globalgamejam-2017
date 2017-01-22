@@ -25,13 +25,13 @@ class Game extends Phaser.State {
         this.player.physicsBodyType = Phaser.Physics.ARCADE;
 
         this.rightGun = this.game.add.weapon(30, 'projectile');
-        this.rightGun.fireRate = 250;
+        this.rightGun.fireRate = 1000;
         this.rightGun.onFire.add(() => {
           const key = this.game.rnd.pick(this.game.global.fireSounds);
           this.game.sound.play(key, 0.4);
         });
         this.leftGun = this.game.add.weapon(30, 'projectile');
-        this.leftGun.fireRate = 250;
+        this.leftGun.fireRate = 1000;
         this.leftGun.onFire.add(() => {
           const key = this.game.rnd.pick(this.game.global.fireSounds);
           this.game.sound.play(key, 0.4);
@@ -67,6 +67,7 @@ class Game extends Phaser.State {
         this.pad1 = this.game.input.gamepad.pad1;
 
         this.music = this.game.sound.play('music-level', 0.4);
+        this.music.loop = true;
     }
 
     update() {
