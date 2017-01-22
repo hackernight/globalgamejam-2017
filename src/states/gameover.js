@@ -15,7 +15,7 @@ class Menu extends Phaser.State {
         } else {
             message = "Officer Waverton failed\n in his quest for justice.\n The city remains in danger\n from the Gang of 99."
             this.music = this.game.sound.play('music-gameover', 0.4);
-            new CenteredSprite(this.game, 'wipeout-bg');
+            const wipeoutBG = new CenteredSprite(this.game, 'wipeout-bg');
             const wipeoutText = this.game.add.sprite(0, this.game.world.centerY, 'wipeout-text');
             wipeoutText.anchor.set(0.5);
             wipeoutText.x = -wipeoutText.width;
@@ -26,6 +26,20 @@ class Menu extends Phaser.State {
                 Phaser.Easing.Bounce.Out,
                 true
             );
+            tween.onComplete.add(() => {
+                this.game.add.tween(wipeoutText).to(
+                    {alpha: 0.3},
+                    2000,
+                    Phaser.Easing.Linear.In,
+                    true
+                );
+                this.game.add.tween(wipeoutBG).to(
+                    {alpha: 0.3},
+                    2000,
+                    Phaser.Easing.Linear.In,
+                    true
+                );
+            });
         }
 
         message += "\n(Press X to continue)"
