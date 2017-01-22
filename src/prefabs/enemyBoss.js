@@ -35,9 +35,10 @@ class EnemyBoss extends Phaser.Sprite {
         this.animations.add('die');
 
         this.player = player;
-        const scale = 0.15;
-        this.scale.setTo(scale, scale);
-        this.anchor.setTo(0.5, 0.5);
+        this.scale.set(0.6);
+        this.anchor.set(0.5);
+
+        this.health = 3;
 
         this.targetX = this.player.x;
         this.targetY = this.player.y;
@@ -46,51 +47,16 @@ class EnemyBoss extends Phaser.Sprite {
         this.game.time.events.loop(Phaser.Timer.SECOND * this.refreshrate, () => {
             this.makeMove();
         }, this);
-
-        //and start out with a move, even if we're a slow balloon
-        //this.makeMove();
     }
 
-    //Code ran on each frame of game
-    update() {
-
-    }
-
-    randomDirection() {
-        let num = this.game.rnd.integerInRange(0, 100);
-        num = num - 50;
-        return num;
-    }
+    update() {}
 
     makeMove() {
-
-        let courseChange1 = this.randomDirection();
-        let courseChange2 = this.randomDirection();
-
-        this.targetY = this.targetY + courseChange1;
-        this.targetX = this.targetX + courseChange2;
-
-        if (this.targetX > this.game.world.width || this.targetX < 0 || this.targetY > this.game.world.height || this.targetY < 0) {
-            //suddenly focus on player again
-            this.targetX = this.player.x;
-            this.targetY = this.player.y;
-        }
+        this.targetX = this.player.x;
+        this.targetY = this.player.y;
 
         this.game.physics.arcade.moveToXY(this, this.targetX, this.targetY, 50);
-
-        //if (this.movementAction == "Random"){
-        //  this.body.velocity.x = 0;
-        //    this.body.velocity.y = 0;
-        //    this.y+=10;
-        //    this.movementAction = "Focused";
-        //  }
-        //else {
-        //    this.game.physics.arcade.moveToObject(this, this.Player,120);
-
-        //}
-
     }
-
 
 }
 
