@@ -38,10 +38,12 @@ class Credits extends Phaser.State {
       this.text.text = "Becky Asbury - Coding, Story"
     }
     if (this.pageid == 7) {
-      this.text.text = "Jokes 2 Far thanks you for playing!"
+      this.text.text = "Jokes 2 Far thanks you for playing!\nCheck out our other game jam titles:\nBrushie Brushie\n&\nRussian Judge Redemption"
     }
+
     if (this.pageid > 7) {
-      this.restartGame();
+      this.game.time.events.add(Phaser.Timer.SECOND * 2, () =>{this.restartGame();}, this);
+
     }
   }
 
