@@ -9,6 +9,18 @@ class Menu extends Phaser.State {
         const startText = new MenuText(this.game, this.game.height * 0.5, 'Shoot to start!');
         const startY = startText.y;
 
+        const style = {
+            font: '24px Arial',
+            fill: '#ffffff',
+            stroke: 0x333333,
+            strokeThickness: 5,
+            align: 'center'
+        };
+        const credittext = this.add.text(this.game.width * 0.5, this.game.height * 0.9, 'Press X to view credits', style);
+        credittext.anchor.setTo(0.5, 0.5);
+
+
+
         var tween = this.game.add.tween(startText).to({
             y: startY + 50
         }, 500, Phaser.Easing.Exponential.Out, true, 0, -1);
@@ -39,15 +51,24 @@ class Menu extends Phaser.State {
         this.startGame();
     }
 
+    viewCredits(button, value){
+        this.game.state.start('credits');
+
+    }
+
     addButtons() {
         this.leftTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_LEFT_TRIGGER);
         this.rightTrigger = this.pad1.getButton(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER);
+        this.xButton = this.pad1.getButton(Phaser.Gamepad.XBOX360_X);
 
         if (!!this.leftTrigger) {
             this.leftTrigger.onDown.add(this.onDown, this);
         }
         if (!!this.rightTrigger) {
             this.rightTrigger.onDown.add(this.onDown, this);
+        }
+        if (!!this.xButton) {
+            this.xButton.onDown.add(this.viewCredits, this);
         }
     }
 
@@ -64,6 +85,9 @@ class Menu extends Phaser.State {
         }
         if (!!this.rightTrigger) {
             this.rightTrigger.onDown.removeAll();
+        }
+        if (!!this.xButton) {
+            this.xButton.onDown.removeAll();
         }
         this.music.stop();
     }
