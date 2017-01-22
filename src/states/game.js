@@ -134,7 +134,8 @@ class Game extends Phaser.State {
 
     endGame() {
         this.balloonsAtLargeText.text = "";
-        this.game.state.start('gameover', false, true, (this.balloonsToKill <= 0));
+        const wipeScreen = !(this.player.health > 0);
+        this.game.state.start('gameover', wipeScreen, false, (this.balloonsToKill <= 0), (this.player.health > 0));
     }
 
     spawnEnemy() {

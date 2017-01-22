@@ -1,19 +1,26 @@
 import CenteredSprite from '../prefabs/centeredSprite';
 
+
 class Menu extends Phaser.State {
 
-    init(gameWon) {
+
+    init(gameWon, stillAlive) {
         this.gameWon = gameWon;
+        this.stillAlive = stillAlive;
     }
 
     create() {
         let message = 'Gameover';
         let tween;
         if (this.gameWon === true) {
-            message = "Officer Waverton can finally rest,\n his partner's brutal murder avenged."
+            if (this.stillAlive == true) {
+                message = "Officer Waverton can finally rest,\n his partner's brutal murder avenged.";
+            } else {
+                message = "Officer Waverton selflessly gave his life\nto ensure the Luftballoons wouldn't hurt\nanyone else, ever again";
+            }
             this.music = this.game.sound.play('music-victory', 0.4);
         } else {
-            message = "Officer Waverton failed\n in his quest for justice.\n The city remains in danger\n from the Gang of 99."
+            message = "Officer Waverton failed\n in his quest for justice.\n The city remains in fear\nof the Gang of 99.";
             this.music = this.game.sound.play('music-gameover', 0.4);
             const wipeoutBG = new CenteredSprite(this.game, 'wipeout-bg');
             const wipeoutText = this.game.add.sprite(0, this.game.world.centerY, 'wipeout-text');
@@ -41,8 +48,9 @@ class Menu extends Phaser.State {
     }
 
     createFadeoutTween(object) {
-        return this.game.add.tween(object).to(
-            {alpha: 0.3},
+        return this.game.add.tween(object).to({
+                alpha: 0.3
+            },
             2000,
             Phaser.Easing.Linear.In,
             true
@@ -61,8 +69,9 @@ class Menu extends Phaser.State {
         const text = this.game.add.text(this.game.world.centerX, this.game.world.centerY, message, style);
         text.anchor.set(0.5);
         text.alpha = 0;
-        this.game.add.tween(text).to(
-            {alpha:1},
+        this.game.add.tween(text).to({
+                alpha: 1
+            },
             2000,
             Phaser.Easing.Linear.In,
             true

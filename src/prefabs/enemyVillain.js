@@ -56,21 +56,23 @@ class EnemyVillain extends Phaser.Sprite {
 
     }
 
-    randomDirection() {
-        let num = this.game.rnd.integerInRange(0, 100);
-        num = num - 50;
+    randomDirection(max) {
+        let num = this.game.rnd.integerInRange(0, max);
+        num = num - (max/2);
         return num;
     }
 
     makeMove() {
 
-        let courseChange1 = this.randomDirection();
-        let courseChange2 = this.randomDirection();
+        let courseChange1 = this.randomDirection(200);
+        let courseChange2 = this.randomDirection(100);
 
         this.targetY = this.targetY + courseChange1;
         this.targetX = this.targetX + courseChange2;
 
-        if (this.targetX > this.game.world.width || this.targetX < 0 || this.targetY > this.game.world.height || this.targetY < 0) {
+        if (this.targetX > this.game.world.width || this.targetX < 0 || this.targetY > this.game.world.height || this.targetY < 0 ||
+          (this.game.rnd.integerInRange(0, 4) ==0)){
+            //If they're trying to go out of bounds, or just 25% of movements
             //suddenly focus on player again
             this.targetX = this.player.x;
             this.targetY = this.player.y;
