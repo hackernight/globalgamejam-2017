@@ -1,3 +1,4 @@
+import Flippybit from '../prefabs/flippyBit';
 class Credits extends Phaser.State {
 
   constructor() {
@@ -21,12 +22,16 @@ class Credits extends Phaser.State {
   }
 
   nextPage(){
+    if(this.flippyBit) {
+      this.flippyBit.destroy();
+    }
+
     this.pageid = this.pageid + 1;
     if (this.pageid == 2) {
       this.text.text = "Evan Cobb - Coding, Art"
     }
     if (this.pageid == 3) {
-      this.flippyBit = new Flippybit(this.game, this.game.world.centerX, this.game.world.centerY-40);
+      this.flippyBit = new Flippybit(this.game, this.game.world.centerX, this.game.world.centerY-100);
       this.text.text = "D.J. Flippybit (Sam Jantz) - Music, Art"
     }
     if (this.pageid == 4) {
