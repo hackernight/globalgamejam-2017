@@ -15,16 +15,17 @@ class MidArmSection extends Phaser.Sprite {
     this.sectionChildren = sectionChildren;
     this.game.add.existing(this);
 
+    
     if(sectionChildren > 1) {
       var newSectionChildren = sectionChildren - 1;
       this.nextSection = new MidArmSection(
-            game,
-            this.getTipX(),
-            this.getTipY(),
-            this.angle,
-            this.gun,
-            newSectionChildren
-          );
+          game,
+          this.getTipX(),
+          this.getTipY(),
+          this.angle,
+          this.gun,
+          newSectionChildren
+        );
 
       this.events.onKilled.add(() => {
             this.nextSection.kill();
@@ -80,8 +81,6 @@ class MidArmSection extends Phaser.Sprite {
         this.gun.fireFrom.y = this.getTipY();
 
         this.gun.fire(this.player);
-        const key = this.game.rnd.pick(this.game.global.fireSounds);
-        this.game.sound.play(key, 0.4);
       }
     }
 
