@@ -1,13 +1,20 @@
 import MenuText from '../prefabs/menuText';
 import BackgroundImage from '../prefabs/backgroundImage';
 import OfficerWaverton from '../prefabs/OfficerWaverton';
+import StaticPositionBalloon from '../prefabs/staticPositionBalloon';
 
 class Menu extends Phaser.State {
 
     create() {
       this.game.time.slowMotion = 1.0 //clear any lingering slow-mo
         //new BackgroundImage(this.game, 'introscreen');
+        this.game.stage.backgroundColor = "#ADD8E6";
         this.officerWaverton = new OfficerWaverton(this.game, 0, this.game.height * .5);
+        this.balloon1 = new StaticPositionBalloon(this.game, this.game.width/2 + Math.random() * (this.game.width/2), Math.random() * this.game.height);
+        this.balloon2 = new StaticPositionBalloon(this.game, this.game.width/2 + Math.random() * (this.game.width/2), Math.random() * this.game.height);
+        this.balloon3 = new StaticPositionBalloon(this.game, this.game.width/2 + Math.random() * (this.game.width/2), Math.random() * this.game.height);
+
+
         new MenuText(this.game, this.game.height * 0.2, 'Officer Waverton and the Luft Balloons');
         const startText = new MenuText(this.game, this.game.height * 0.5, 'Shoot to start!');
         const startY = startText.y;
@@ -30,6 +37,19 @@ class Menu extends Phaser.State {
         var tween = this.game.add.tween(startText).to({
             y: startY + 50
         }, 500, Phaser.Easing.Exponential.Out, true, 0, -1);
+
+        var tween = this.game.add.tween(this.balloon1).to({
+            y: startY + 30
+        }, Math.random() * 500 + 500, Phaser.Easing.Exponential.Out, true, 0, -1);
+
+        var tween = this.game.add.tween(this.balloon2).to({
+            y: startY + 30
+        }, Math.random() * 500 + 500, Phaser.Easing.Exponential.Out, true, 0, -1);
+
+        var tween = this.game.add.tween(this.balloon3).to({
+            y: startY + 30
+        }, Math.random() * 500 + 500, Phaser.Easing.Exponential.Out, true, 0, -1);
+
 
         //  And this tells it to yoyo, i.e. fade back to zero again before repeating.
         //  The 3000 tells it to wait for 3 seconds before starting the fade back.
@@ -66,7 +86,17 @@ class Menu extends Phaser.State {
 
     shutdown() {
         this.officerWaverton.destroy();
+        this.balloon1.destroy();
+        this.balloon2.destroy();
+        this.balloon3.destroy();
+
         this.music.stop();
+    }
+
+    spawnEnemy() {
+        const enemies = [EnemyAviator, EnemyVillain, EnemyZepplin];
+        const classToSpawn = this.game.rnd.pick(enemies);
+        this.enemies.add(new classToSpawn(this.game, this.player));
     }
 
     setupControls(useController){
