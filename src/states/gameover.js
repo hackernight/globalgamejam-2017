@@ -14,10 +14,16 @@ class Menu extends Phaser.State {
         } else {
             message = "Officer Waverton failed\n in his quest for justice.\n The city remains in danger\n from the Gang of 99."
             this.music = this.game.sound.play('music-gameover', 0.4);
-            // this.game.add.sprite(0,0,'wipeout-bg');
-            // this.game.add.sprite(0,0,'wipeout-text');
             new CenteredSprite(this.game, 'wipeout-bg');
-            new CenteredSprite(this.game, 'wipeout-text');
+            const wipeoutText = this.game.add.sprite(0, this.game.world.centerY, 'wipeout-text');
+            wipeoutText.anchor.set(0.5);
+            wipeoutText.x = -wipeoutText.width;
+            this.game.add.tween(wipeoutText).to(
+                {x:this.game.world.centerX},
+                1500,
+                Phaser.Easing.Bounce.Out,
+                true
+            );
         }
 
         message += "\n(Press X to continue)"
