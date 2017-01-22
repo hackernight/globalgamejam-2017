@@ -78,12 +78,12 @@ class Game extends Phaser.State {
     }
 
     update() {
-        if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) != 0) {
-            this.left.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y)));
+        if (this.game.global.controlSettings.isChangingLeftAngle()) {
+            this.left.setTargetAngle(this.game.global.controlSettings.newLeftAngle());
         }
 
-        if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0) {
-            this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
+        if (this.game.global.controlSettings.isChangingRightAngle()) {
+            this.right.setTargetAngle(this.game.global.controlSettings.newRightAngle());
         }
         if (this.game.global.controlSettings.shouldShootRight()) {
             this.right.fireGun();
@@ -106,11 +106,6 @@ class Game extends Phaser.State {
         const key = this.game.rnd.pick(this.game.global.killSounds);
         this.game.sound.play(key, 0.4);
         bullet.kill();
-        this.balloonsToKill = this.balloonsToKill - 1;
-        this.balloonsAtLargeText.text = "Balloons At Large: " + this.balloonsToKill;
-        if (this.balloonsToKill == 0) {
-            this.endGame();
-        }
     }
 
     playerEnemyCollision(player, enemy) {
@@ -129,6 +124,11 @@ class Game extends Phaser.State {
             console.log("ded");
             enemy.damage(1)
         });
+        this.balloonsToKill = this.balloonsToKill - 1;
+        this.balloonsAtLargeText.text = "Balloons At Large: " + this.balloonsToKill;
+        if (this.balloonsToKill == 0) {
+            this.endGame();
+        }
     }
 
     endGame() {
