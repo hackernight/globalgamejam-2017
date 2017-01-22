@@ -106,11 +106,6 @@ class Game extends Phaser.State {
         const key = this.game.rnd.pick(this.game.global.killSounds);
         this.game.sound.play(key, 0.4);
         bullet.kill();
-        this.balloonsToKill = this.balloonsToKill - 1;
-        this.balloonsAtLargeText.text = "Balloons At Large: " + this.balloonsToKill;
-        if (this.balloonsToKill == 0) {
-            this.endGame();
-        }
     }
 
     playerEnemyCollision(player, enemy) {
@@ -129,6 +124,11 @@ class Game extends Phaser.State {
             console.log("ded");
             enemy.damage(1)
         });
+        this.balloonsToKill = this.balloonsToKill - 1;
+        this.balloonsAtLargeText.text = "Balloons At Large: " + this.balloonsToKill;
+        if (this.balloonsToKill == 0) {
+            this.endGame();
+        }
     }
 
     endGame() {
