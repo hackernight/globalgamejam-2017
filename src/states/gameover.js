@@ -18,7 +18,13 @@ class Menu extends Phaser.State {
 
     message += "\n(Press X to continue)"
 
-    var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
+    var style = {
+    font: "65px Arial",
+    fill: "#ffffff",
+    stroke: 0x333333,
+    strokeThickness: 5,
+    align: "center"
+};
     var text = this.add.text(this.game.world.centerX, this.game.world.centerY, message, style);
     text.anchor.set(0.5);
 
