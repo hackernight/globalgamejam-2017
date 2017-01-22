@@ -1,4 +1,5 @@
 import Flippybit from '../prefabs/flippyBit';
+import BaldEagle from '../prefabs/BaldEagle';
 class Credits extends Phaser.State {
 
   constructor() {
@@ -34,6 +35,9 @@ class Credits extends Phaser.State {
     if(this.flippyBit) {
       this.flippyBit.destroy();
     }
+    if(this.BaldEagle) {
+      this.BaldEagle.destroy();
+    }
 
     this.pageid = this.pageid + 1;
     if (this.pageid == 2) {
@@ -44,6 +48,7 @@ class Credits extends Phaser.State {
       this.text.text = "D.J. Flippybit (Sam Jantz)\n\nMusic, Art"
     }
     if (this.pageid == 4) {
+      this.BaldEagle = new BaldEagle(this.game, this.game.world.centerX, this.game.world.centerY-150);
       this.text.text = "D.J. Bald Eagle (Mark Hall)\n\nProject Management, Art, Story"
     }
     if (this.pageid == 5) {
