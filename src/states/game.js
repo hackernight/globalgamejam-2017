@@ -1,6 +1,9 @@
 import PlayerBody from '../prefabs/playerBody';
 import PlayerArm from '../prefabs/playerArm';
 import EnemyAviator from '../prefabs/enemyAviator';
+import EnemyVillain from '../prefabs/enemyVillain';
+import EnemyBoss from '../prefabs/enemyBoss';
+import EnemyZepplin from '../prefabs/enemyZepplin';
 import Heart from '../prefabs/heart';
 
 class Game extends Phaser.State {
@@ -117,7 +120,7 @@ class Game extends Phaser.State {
     }
 
     enemyDeath(enemy) {
-        const anim = enemy.animations.play('die', 30, false);
+        const anim = enemy.animations.play('die', 12, false);
         enemy.body.checkCollision.none = true;
         anim.onComplete.add(() => {
             console.log("ded");
@@ -130,9 +133,11 @@ class Game extends Phaser.State {
     }
 
     spawnEnemy() {
+        const enemies = [EnemyAviator, EnemyBoss, EnemyVillain, EnemyZepplin];
         this.balloonsToSpawn = this.balloonsToSpawn - 1;
         if (this.balloonsToSpawn > -1){
-            this.enemies.add(new EnemyAviator(this.game, this.player));
+            const classToSpawn = this.game.rnd.pick(enemies);
+            this.enemies.add(new classToSpawn(this.game, this.player));
         }
     }
 
