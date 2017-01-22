@@ -26,6 +26,7 @@ class Credits extends Phaser.State {
       this.text.text = "Evan Cobb - Coding, Art"
     }
     if (this.pageid == 3) {
+      this.flippyBit = new Flippybit(this.game, this.game.world.centerX, this.game.world.centerY-40);
       this.text.text = "D.J. Flippybit (Sam Jantz) - Music, Art"
     }
     if (this.pageid == 4) {
