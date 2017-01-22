@@ -37,7 +37,7 @@ class EnemyBoss extends Phaser.Sprite {
         this.player = player;
         const scale = 0.15;
         this.scale.setTo(scale, scale);
-        this.anchor.setTo(0.5, 0.5);
+        this.anchor.set(0.8);
 
         this.targetX = this.player.x;
         this.targetY = this.player.y;
