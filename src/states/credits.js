@@ -63,9 +63,9 @@ class Credits extends Phaser.State {
 
   update() {
 
-      if (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft() ||
+      if (this.pageid > 1 && (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft() ||
         this.game.global.controlSettings.isPressingX() || this.game.global.controlSettings.isPressingA() ||
-        this.game.global.controlSettings.isChangingRightAngle() || this.game.global.controlSettings.isChangingLeftAngle()) {
+        this.game.global.controlSettings.isChangingRightAngle() || this.game.global.controlSettings.isChangingLeftAngle())) {
           this.game.state.start('menu');
         }
 

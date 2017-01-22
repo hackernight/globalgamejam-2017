@@ -44,7 +44,8 @@ class Menu extends Phaser.State {
     update() {
       if (this.canAcceptInput == true){
         //console.log(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y));
-      if (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft()) {
+      if (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft() ||
+          this.game.global.controlSettings.isChangingRightAngle() || this.game.global.controlSettings.isChangingLeftAngle()) {
           this.startGame();
       }
       if (this.game.global.controlSettings.isPressingX()) {
