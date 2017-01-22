@@ -38,6 +38,8 @@ class Preloader extends Phaser.State {
         this.game.load.image('projectile', 'assets/projectile-big.png');
         this.game.load.image('tiledBG', 'assets/tiled-bg.png');
         this.game.load.image('introscreen', 'assets/AOJ.png');
+        this.game.load.image('wipeout-text', 'assets/wipeout_text.png');
+        this.game.load.image('wipeout-bg', 'assets/wipeout_scene.png');
         this.game.load.spritesheet('heart', 'assets/heart-sheet.png', 64, 64, 8);
         this.game.load.spritesheet('flippyBit', 'assets/flippyBit.png', 64, 64, 22);
 

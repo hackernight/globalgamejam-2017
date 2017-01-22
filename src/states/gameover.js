@@ -1,70 +1,55 @@
+import CenteredSprite from '../prefabs/centeredSprite';
+
 class Menu extends Phaser.State {
 
-  constructor() {
-    super();
-  }
-  init(gameWon){
-    this.gameWon = gameWon;
-  }
-
-  create() {
-    let message = 'Gameover';
-    if (this.gameWon==true){
-      message = "Officer Waverton can finally rest,\n his partner's brutal murder avenged."
-    }
-    else {
-      message = "Officer Waverton failed\n in his quest for justice.\n The city remains in danger\n from the Gang of 99."
+    init(gameWon) {
+        this.gameWon = gameWon;
     }
 
-    message += "\n(Press X to continue)"
+    create() {
+        let message = 'Gameover';
+        if (this.gameWon === true) {
+            message = "Officer Waverton can finally rest,\n his partner's brutal murder avenged."
+            this.music = this.game.sound.play('music-victory', 0.4);
+        } else {
+            message = "Officer Waverton failed\n in his quest for justice.\n The city remains in danger\n from the Gang of 99."
+            this.music = this.game.sound.play('music-gameover', 0.4);
+            // this.game.add.sprite(0,0,'wipeout-bg');
+            // this.game.add.sprite(0,0,'wipeout-text');
+            new CenteredSprite(this.game, 'wipeout-bg');
+            new CenteredSprite(this.game, 'wipeout-text');
+        }
 
-    var style = {
-    font: "65px Arial",
-    fill: "#ffffff",
-    stroke: 0x333333,
-    strokeThickness: 5,
-    align: "center"
-};
-    var text = this.add.text(this.game.world.centerX, this.game.world.centerY, message, style);
-    text.anchor.set(0.5);
+        message += "\n(Press X to continue)"
 
-    this.saveVarsToLocalStorage();
-
-    if (this.gameWon==true){
-      this.music = this.game.sound.play('music-victory', 0.4);
+        var style = {
+            font: "65px Arial",
+            fill: "#ffffff",
+            stroke: 0x333333,
+            strokeThickness: 5,
+            align: "center"
+        };
+        var text = this.add.text(this.game.world.centerX, this.game.world.centerY, message, style);
+        text.anchor.set(0.5);
     }
-    else {
-      this.music = this.game.sound.play('music-gameover', 0.4);
+
+
+    update() {
+        if (this.game.global.controlSettings.isPressingX()) {
+            this.restartGame();
+        }
     }
-  }
 
-  saveVarsToLocalStorage(){
+    restartGame() {
+        this.game.state.start('menu');
+    }
 
-  }
-
-  resetGlobalVariables(){
-
-  }
-
-
-  update() {
-if (this.game.global.controlSettings.isPressingX()){
-  this.restartGame();
-}
-
-  }
-
-  restartGame () {
-    this.resetGlobalVariables();
-    this.game.state.start('menu');
-  }
-
-  shutdown() {
-      if (!!this.xButton) {
-          this.xButton.onDown.removeAll();
-      }
-      this.music.stop();
-  }
+    shutdown() {
+        if (!!this.xButton) {
+            this.xButton.onDown.removeAll();
+        }
+        this.music.stop();
+    }
 
 }
 
