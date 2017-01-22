@@ -34,7 +34,7 @@ class Preloader extends Phaser.State {
         // other Art
         this.game.load.image('playerArm', 'assets/wavyman-arm.png');
         this.game.load.image('midArmSection', 'assets/wavyman-arm.png');
-        this.game.load.image('playerBody', 'assets/wavyman-body.png');
+        this.game.load.image('playerBody', 'assets/waverton.png');
         this.game.load.image('projectile', 'assets/projectile.png');
         this.game.load.spritesheet('heart', 'assets/heart-sheet.png', 64, 64, 8);
         this.game.load.image('introscreen', 'assets/introscreen.png');
