@@ -16,7 +16,8 @@ class Menu extends Phaser.State {
             strokeThickness: 5,
             align: 'center'
         };
-        const credittext = this.add.text(this.game.width * 0.5, this.game.height * 0.9, 'Press X to view credits', style);
+        const credittext = this.add.text(this.game.width * 0.5, this.game.height * 0.9,
+                  'Press X to view credits\n Press A to configure controls', style);
         credittext.anchor.setTo(0.5, 0.5);
 
 
@@ -38,11 +39,22 @@ class Menu extends Phaser.State {
         this.pad1 = this.game.input.gamepad.pad1;
 
         if (this.pad1.connected) {
-            this.addButtons();
+            //this.addButtons();
         }
-        this.pad1.addCallbacks(this, {
-            onConnect: this.addButtons
-        });
+        //this.pad1.addCallbacks(this, {
+        //    onConnect: this.addButtons
+        //});
+
+      this.game.global.controlSettings =  {
+          item: this.game.input.gamepad.pad1,
+          shouldShootRight: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER)
+                                                      },
+          shouldShootLeft: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)
+                                                      },
+          isPressingOther: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_X)
+                                                      }
+                                                    };
+
 
         this.music = this.game.sound.play('music-intro', 0.4);
         this.music.loop = true;
@@ -74,7 +86,15 @@ class Menu extends Phaser.State {
     }
 
 
-    update() {}
+    update() {
+      if (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft()) {
+          this.startGame();
+      }
+        if (this.game.global.controlSettings.isPressingOther()) {
+            this.game.state.start('credits');
+        }
+
+    }
 
     startGame() {
         this.game.state.start('game');

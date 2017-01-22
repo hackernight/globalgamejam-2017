@@ -62,8 +62,6 @@ class Game extends Phaser.State {
 
         }
 
-        this.game.input.gamepad.start();
-
         this.pad1 = this.game.input.gamepad.pad1;
 
         this.music = this.game.sound.play('music-level', 0.4);
@@ -78,11 +76,10 @@ class Game extends Phaser.State {
         if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0) {
             this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
         }
-
-        if (this.pad1.isDown(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER)) {
+        if (this.game.global.controlSettings.shouldShootRight()) {
             this.right.fireGun();
         }
-        if (this.pad1.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)) {
+        if (this.game.global.controlSettings.shouldShootLeft()) {
             this.left.fireGun();
         }
 
