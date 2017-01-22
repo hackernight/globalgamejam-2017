@@ -1,5 +1,5 @@
 //Documentation for Phaser's (2.6.2) sprites:: phaser.io/docs/2.6.2/Phaser.Sprite.html
-class EnemyPointy extends Phaser.Sprite {
+class EnemyAviator extends Phaser.Sprite {
 
     //initialization code in the constructor
     constructor(game, player) {
@@ -89,4 +89,4 @@ class EnemyPointy extends Phaser.Sprite {
 
 }
 
-export default EnemyPointy;
+export default EnemyAviator;
