@@ -38,6 +38,8 @@ class EnemyBoss extends Phaser.Sprite {
         this.scale.set(0.6);
         this.anchor.set(0.5);
 
+        this.health = 3;
+
         this.targetX = this.player.x;
         this.targetY = this.player.y;
         this.refreshrate = (this.game.rnd.integerInRange(1, 4)) / 2;
@@ -47,10 +49,7 @@ class EnemyBoss extends Phaser.Sprite {
         }, this);
     }
 
-    //Code ran on each frame of game
-    update() {
-
-    }
+    update() {}
 
     makeMove() {
         this.targetX = this.player.x;
