@@ -6,19 +6,28 @@ class Credits extends Phaser.State {
   }
 
   create() {
+
+    this.game.stage.backgroundColor = "#ADD8E6";
     this.pageid = 1;
     let message = 'Made in St. Louis for Global Game Jam 2017';
 
-    var style = { font: "30px Arial", fill: "#ffffff", align: "center" };
+    var style = {
+            font: '30px Arial',
+            fill: '#ffffff',
+            stroke: 0x333333,
+            strokeThickness: 3,
+            align: 'center'
+        };
     this.text = this.add.text(this.game.world.centerX, this.game.world.centerY, message, style);
     this.text.anchor.set(0.5);
 
     this.input.onDown.add(this.restartGame, this);
-    this.music = this.game.sound.play('music-intro', 0.4);
 
     this.game.time.events.loop(Phaser.Timer.SECOND * 2, () => {
           this.nextPage();
     }, this);
+
+    this.music = this.game.sound.play('music-credits', 0.4);
   }
 
   nextPage(){

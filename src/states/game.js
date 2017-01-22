@@ -17,7 +17,7 @@ class Game extends Phaser.State {
         this.hearts = [];
         this.player = new PlayerBody(this.game, health);
         this.balloonsToSpawn = 20;
-        this.balloonsToKill = 20;
+        this.balloonsToKill = this.balloonsToSpawn;
         let scorestartingX = this.game.world.centerX + (this.game.world.centerX / 3);
         this.balloonsAtLargeText = this.game.add.text(scorestartingX, 50,
             "Balloons At Large: " + this.balloonsToKill, {
@@ -152,8 +152,7 @@ class Game extends Phaser.State {
 
     endGame() {
         this.balloonsAtLargeText.text = "";
-        const wipeScreen = !(this.player.health > 0);
-        this.game.state.start('gameover', wipeScreen, false, (this.balloonsToKill <= 0), (this.player.health > 0));
+        this.game.state.start('gameover', true, false, (this.balloonsToKill <= 0), (this.player.health > 0));
     }
 
     spawnEnemy() {

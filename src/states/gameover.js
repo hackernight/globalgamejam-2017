@@ -12,7 +12,8 @@ class Menu extends Phaser.State {
     create() {
         this.game.time.slowMotion = 1.0 //clear any lingering slow-mo
         let message = 'Gameover';
-        let tween;
+        let wipeoutBG;
+        let wipeoutText;
         if (this.gameWon === true) {
             if (this.stillAlive == true) {
                 message = "Officer Waverton can finally rest,\n his partner's brutal murder avenged.";
@@ -20,32 +21,31 @@ class Menu extends Phaser.State {
                 message = "Officer Waverton selflessly gave his life\nto ensure the Luftballoons wouldn't hurt\nanyone else, ever again";
             }
             this.music = this.game.sound.play('music-victory', 0.4);
+            wipeoutBG = new CenteredSprite(this.game, 'victory-bg');
+            wipeoutText = this.game.add.sprite(0, this.game.world.centerY, 'victory-text');
         } else {
             message = "Officer Waverton failed\n in his quest for justice.\n The city remains in fear\nof the Gang of 99.";
             this.music = this.game.sound.play('music-gameover', 0.4);
-            const wipeoutBG = new CenteredSprite(this.game, 'wipeout-bg');
-            const wipeoutText = this.game.add.sprite(0, this.game.world.centerY, 'wipeout-text');
-            wipeoutText.anchor.set(0.5);
-            wipeoutText.x = -wipeoutText.width;
-            tween = this.game.add.tween(wipeoutText).to({
-                    x: this.game.world.centerX
-                },
-                1500,
-                Phaser.Easing.Bounce.Out,
-                true
-            );
-            tween.chain(this.createFadeoutTween(wipeoutBG), this.createFadeoutTween(wipeoutText));
+            wipeoutBG = new CenteredSprite(this.game, 'wipeout-bg');
+            wipeoutText = this.game.add.sprite(0, this.game.world.centerY, 'wipeout-text');
         }
 
         message += "\n(Press X to continue)"
 
-        if (!tween) {
+        wipeoutText.anchor.set(0.5);
+        wipeoutText.x = -wipeoutText.width;
+        let tween = this.game.add.tween(wipeoutText).to({
+                x: this.game.world.centerX
+            },
+            1500,
+            Phaser.Easing.Bounce.Out,
+            true
+        );
+        tween.chain(this.createFadeoutTween(wipeoutBG), this.createFadeoutTween(wipeoutText));
+
+        tween.onComplete.add(() => {
             this.createText(message);
-        } else {
-            tween.onComplete.add(() => {
-                this.createText(message);
-            }, this);
-        }
+        }, this);
     }
 
     createFadeoutTween(object) {

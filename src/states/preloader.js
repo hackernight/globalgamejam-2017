@@ -4,7 +4,6 @@ class Preloader extends Phaser.State {
         super();
         this.asset = null;
         this.ready = false;
-
     }
 
     preload() {
@@ -20,7 +19,7 @@ class Preloader extends Phaser.State {
 
     update() {
         if (this.ready) {
-            this.game.state.start('menu');
+            this.game.state.start('splashScreen');
         }
     }
 
@@ -31,6 +30,11 @@ class Preloader extends Phaser.State {
         this.game.load.spritesheet('enemyZepplin', 'assets/ZealousZepplinExp1-sheet-627-547.png', 627, 547);
         this.game.load.spritesheet('enemyBoss', 'assets/BigBossBalloon1-sheet-755-680.png', 755, 680);
 
+        // Splash screens
+        this.game.load.image('stl', 'assets/MadeInSTL.png');
+        this.game.load.spritesheet('studio', 'assets/studio-logo-sheet.png', 128, 128);
+        // this.game.global.splashScreens = ['stl'];
+
         // other Art
         this.game.load.image('playerArm', 'assets/wavyman-arm.png');
         this.game.load.image('midArmSection', 'assets/wavyman-arm.png');
@@ -40,6 +44,8 @@ class Preloader extends Phaser.State {
         this.game.load.image('introscreen', 'assets/AOJ.png');
         this.game.load.image('wipeout-text', 'assets/wipeout_text.png');
         this.game.load.image('wipeout-bg', 'assets/wipeout_scene.png');
+        this.game.load.image('victory-text', 'assets/victory-text.png');
+        this.game.load.image('victory-bg', 'assets/victory-scene.png');
         this.game.load.spritesheet('heart', 'assets/heart-sheet.png', 64, 64, 8);
         this.game.load.spritesheet('flippyBit', 'assets/flippyBit.png', 64, 64, 22);
         this.game.load.image('officerWaverton', 'assets/OfficerWaverton.png');
@@ -60,6 +66,7 @@ class Preloader extends Phaser.State {
         this.game.load.audio('music-level', 'assets/level.ogg');
         this.game.load.audio('music-gameover', 'assets/game_over.ogg');
         this.game.load.audio('music-victory', 'assets/victory.ogg');
+        this.game.load.audio('music-credits', 'assets/credits.ogg');
 
     }
 
