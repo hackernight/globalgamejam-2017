@@ -42,6 +42,7 @@ class Preloader extends Phaser.State {
         this.game.load.image('wipeout-bg', 'assets/wipeout_scene.png');
         this.game.load.spritesheet('heart', 'assets/heart-sheet.png', 64, 64, 8);
         this.game.load.spritesheet('flippyBit', 'assets/flippyBit.png', 64, 64, 22);
+        this.game.load.image('officerWaverton', 'assets/OfficerWaverton.png');
 
         // Sound
         this.game.load.audio('fire1', 'assets/Blip_Fire.ogg');
