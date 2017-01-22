@@ -24,16 +24,6 @@ class Menu extends Phaser.State {
 
     this.saveVarsToLocalStorage();
 
-    this.game.input.gamepad.start();
-
-    this.pad1 = this.game.input.gamepad.pad1;
-    if (this.pad1.connected) {
-        this.addButtons();
-    }
-    this.pad1.addCallbacks(this, {
-        onConnect: this.addButtons
-    });
-
     if (this.gameWon==true){
       this.music = this.game.sound.play('music-victory', 0.4);
     }
@@ -50,15 +40,13 @@ class Menu extends Phaser.State {
 
   }
 
-  addButtons() {
-        this.xButton = this.pad1.getButton(Phaser.Gamepad.XBOX360_X);
 
-        if (!!this.xButton) {
-            this.xButton.onDown.add(this.restartGame, this);
-        }
+  update() {
+if (this.game.global.controlSettings.isPressingOther()){
+  this.restartGame();
+}
+
   }
-
-  update() {}
 
   restartGame () {
     this.resetGlobalVariables();

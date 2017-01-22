@@ -37,19 +37,34 @@ class Menu extends Phaser.State {
 
         this.pad1 = this.game.input.gamepad.pad1;
 
-        if (this.pad1.connected) {
-            //this.addButtons();
+//console support is super flaky, so we're just going to assume this is always there for the purposes of the demo
+        if (1==1) {//this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad1.connected) {
+            
+            //console.log("WE are connected!");
+                  this.game.global.controlSettings =  {
+                      item: this.game.input.gamepad.pad1,
+                      shouldShootRight: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER)
+                                                                  },
+                      shouldShootLeft: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)
+                                                                  },
+                      isPressingOther: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_X)
+                                                                  }
+                                                                };
+        }
+        else {
+        this.game.input.gamepad.stop();
+        this.game.input.keyboard.start();
+                this.game.global.controlSettings =  {
+                    item: this.game.input.keyboard,
+                    shouldShootRight: () => {return this.game.input.keyboard.isDown(Phaser.Keyboard.NUMPAD_1)
+                                                                },
+                    shouldShootLeft: () => {return this.game.input.keyboard.isDown(Phaser.Keyboard.NUMPAD_2)
+                                                                },
+                    isPressingOther: () => {return this.game.input.keyboard.isDown(Phaser.Keyboard.X)
+                                                                }
+                                                              };
         }
 
-      this.game.global.controlSettings =  {
-          item: this.game.input.gamepad.pad1,
-          shouldShootRight: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER)
-                                                      },
-          shouldShootLeft: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)
-                                                      },
-          isPressingOther: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_X)
-                                                      }
-                                                    };
 //wait 2 seconds before we accept input, or it goes stright to credits after end of game
         this.game.time.events.add(Phaser.Timer.SECOND * 2, () =>{this.canAcceptInput = true}, this);
 

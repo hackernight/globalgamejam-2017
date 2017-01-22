@@ -29,6 +29,8 @@ class EnemyBoss extends Phaser.Sprite {
 
         super(game, x, y, 'enemyBoss');
         game.add.existing(this);
+        game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.body.setSize(this.width - 100, this.height - 300, 50, 60);
 
         this.animations.add('die');
 
