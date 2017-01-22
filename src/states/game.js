@@ -10,7 +10,7 @@ import TiledBG from '../prefabs/tiledBG';
 class Game extends Phaser.State {
 
     create() {
-        new TiledBG(this.game);
+        this.background = new TiledBG(this.game);
         const health = 3;
         this.hearts = [];
         this.player = new PlayerBody(this.game, health);
@@ -106,19 +106,20 @@ class Game extends Phaser.State {
     }
 
     playerEnemyCollision(player, enemy) {
-        this.enemyDeath(enemy);
-        const key = this.game.rnd.pick(this.game.global.deathSounds);
-        this.game.sound.play(key, 0.4);
         player.damage(1);
+        this.background.tint = 0xff0000;
+        this.game.time.events.add(Phaser.Timer.SECOND * .1, () =>{  this.background.tint = 0xffffff}, this);
         const deadHeart = this.hearts.pop();
         deadHeart.destroy();
+            const key = this.game.rnd.pick(this.game.global.deathSounds);
+            this.game.sound.play(key, 0.4);
+                this.enemyDeath(enemy);
     }
 
     enemyDeath(enemy) {
         const anim = enemy.animations.play('die', 12, false);
         enemy.body.checkCollision.none = true;
         anim.onComplete.add(() => {
-            console.log("ded");
             enemy.damage(1)
         });
         this.balloonsToKill = this.balloonsToKill - 1;
