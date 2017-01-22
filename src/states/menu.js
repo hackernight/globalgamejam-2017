@@ -35,7 +35,7 @@ class Menu extends Phaser.State {
         this.setupControls(true);
 
 //wait 2 seconds before we accept input, or it goes stright to credits after end of game
-        this.game.time.events.add(Phaser.Timer.SECOND * 2, () =>{this.canAcceptInput = true}, this);
+        this.game.time.events.add(Phaser.Timer.SECOND * .5, () =>{this.canAcceptInput = true}, this);
 
         this.music = this.game.sound.play('music-intro', 0.4);
         this.music.loop = true;
@@ -43,10 +43,11 @@ class Menu extends Phaser.State {
 
     update() {
       if (this.canAcceptInput == true){
+        //console.log(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y));
       if (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft()) {
           this.startGame();
       }
-        if (this.game.global.controlSettings.isPressingOther()) {
+        if (this.game.global.controlSettings.isPressingX()) {
             this.game.state.start('credits');
         }
     }
@@ -67,32 +68,53 @@ class Menu extends Phaser.State {
               this.pad1 = this.game.input.gamepad.pad1;
 
       //console support is super flaky, so we're just going to assume this is always there for the purposes of the demo
-              if (1==1) {//this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad1.connected) {
+              if (useController == true) {
 
                   //console.log("WE are connected!");
                         this.game.global.controlSettings =  {
                             item: this.game.input.gamepad.pad1,
                             shouldShootRight: () => {return (this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) ||
-                                                            this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+                                                            this.game.input.keyboard.isDown(Phaser.Keyboard.ONE) ||
+                                                            this.game.input.keyboard.isDown(Phaser.Keyboard.NUMPAD_1))
                                                                         },
-                            shouldShootLeft: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)
+                            shouldShootLeft: () => {return (this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)||
+                                                            this.game.input.keyboard.isDown(Phaser.Keyboard.TWO) ||
+                                                            this.game.input.keyboard.isDown(Phaser.Keyboard.NUMPAD_2))
                                                                         },
-                            isPressingOther: () => {return this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_X)
-                                                                        }
+                            isPressingX: () => {return (this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_X)||
+                                                          this.game.input.keyboard.isDown(Phaser.Keyboard.X))
+                                                                        },
+                            isPressingA: () => {return (this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_A)||
+                                                          this.game.input.keyboard.isDown(Phaser.Keyboard.A))
+                                                                        },
+                            isChangingRightAngle: () => {return (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 ||
+                                                              this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0 ||
+                                                              this.game.input.keyboard.isDown(Phaser.Keyboard.F))
+                                                                        },
+                            newRightAngle: () => {if (this.game.input.keyboard.isDown(Phaser.Keyboard.F)) {
+                                                  return (this.game.rnd.integerInRange(0, 360));
+                                                  }
+                                                else {
+                                                  return (Phaser.Math.radToDeg(Phaser.Math.angleBetween(0,0,
+                                                                        this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X),
+                                                                        this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y))))
+                                                    }
+                                                                      },
+                          isChangingLeftAngle: () => {return (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) != 0 ||
+                                                            this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) != 0 ||
+                                                            this.game.input.keyboard.isDown(Phaser.Keyboard.F))
+
+                                                                      },
+                          newLeftAngle: () => {if (this.game.input.keyboard.isDown(Phaser.Keyboard.F)) {
+                                                return (this.game.rnd.integerInRange(0, 360));
+                                                }
+                                              else {
+                                                    return (Phaser.Math.radToDeg(Phaser.Math.angleBetween(0,0,
+                                                                      this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X),
+                                                                      this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y))))
+                                                    }
+                                              }
                                                                       };
-              }
-              else {
-              this.game.input.gamepad.stop();
-              this.game.input.keyboard.start();
-                      this.game.global.controlSettings =  {
-                          item: this.game.input.keyboard,
-                          shouldShootRight: () => {return this.game.input.keyboard.isDown(Phaser.Keyboard.NUMPAD_1)
-                                                                      },
-                          shouldShootLeft: () => {return this.game.input.keyboard.isDown(Phaser.Keyboard.NUMPAD_2)
-                                                                      },
-                          isPressingOther: () => {return this.game.input.keyboard.isDown(Phaser.Keyboard.X)
-                                                                      }
-                                                                    };
               }
     }
 

@@ -74,12 +74,12 @@ class Game extends Phaser.State {
     }
 
     update() {
-        if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) != 0) {
-            this.left.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y)));
+        if (this.game.global.controlSettings.isChangingLeftAngle()) {
+            this.left.setTargetAngle(this.game.global.controlSettings.newLeftAngle());
         }
 
-        if (this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X) != 0 || this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y) != 0) {
-            this.right.setTargetAngle(this.getAngle(this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_X), this.pad1.axis(Phaser.Gamepad.XBOX360_STICK_RIGHT_Y)));
+        if (this.game.global.controlSettings.isChangingRightAngle()) {
+            this.right.setTargetAngle(this.game.global.controlSettings.newRightAngle());
         }
         if (this.game.global.controlSettings.shouldShootRight()) {
             this.right.fireGun();

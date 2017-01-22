@@ -42,7 +42,7 @@ class Menu extends Phaser.State {
 
 
   update() {
-if (this.game.global.controlSettings.isPressingOther()){
+if (this.game.global.controlSettings.isPressingX()){
   this.restartGame();
 }
 
