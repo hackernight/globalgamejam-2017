@@ -28,23 +28,23 @@ class Credits extends Phaser.State {
 
     this.pageid = this.pageid + 1;
     if (this.pageid == 2) {
-      this.text.text = "Evan Cobb - Coding, Art"
+      this.text.text = "Evan Cobb\n\nCoding, Art"
     }
     if (this.pageid == 3) {
-      this.flippyBit = new Flippybit(this.game, this.game.world.centerX, this.game.world.centerY-100);
-      this.text.text = "D.J. Flippybit (Sam Jantz) - Music, Art"
+      this.flippyBit = new Flippybit(this.game, this.game.world.centerX, this.game.world.centerY-150);
+      this.text.text = "D.J. Flippybit (Sam Jantz)\n\nMusic, Art"
     }
     if (this.pageid == 4) {
-      this.text.text = "D.J. Bald Eagle (Mark Hall) - Project Management, Art, Story"
+      this.text.text = "D.J. Bald Eagle (Mark Hall)\n\nProject Management, Art, Story"
     }
     if (this.pageid == 5) {
-      this.text.text = "Peter Zylka - Coding"
+      this.text.text = "Peter Zylka\n\nCoding, Art"
     }
     if (this.pageid == 6) {
-      this.text.text = "Becky Asbury - Coding, Story"
+      this.text.text = "Becky Asbury\n\nCoding, Story"
     }
     if (this.pageid == 7) {
-      this.text.text = "Jokes 2 Far thanks you for playing!\nCheck out our other game jam titles:\nBrushie Brushie\n&\nRussian Judge Redemption"
+      this.text.text = "Jokes 2 Far thanks you for playing!\n\nCheck out our other game jam titles:\nBrushie Brushie\n&\nRussian Judge Redemption"
     }
 
     if (this.pageid > 7) {
@@ -61,7 +61,15 @@ class Credits extends Phaser.State {
 
   }
 
-  update() {}
+  update() {
+
+      if (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft() ||
+        this.game.global.controlSettings.isPressingX() || this.game.global.controlSettings.isPressingA() ||
+        this.game.global.controlSettings.isChangingRightAngle() || this.game.global.controlSettings.isChangingLeftAngle()) {
+          this.game.state.start('menu');
+        }
+
+  }
 
   restartGame () {
     this.resetGlobalVariables();
