@@ -50,6 +50,13 @@ class Menu extends Phaser.State {
         console.log(this.game);
         const text = this.game.add.text(this.game.world.centerX, this.game.world.centerY, message, style);
         text.anchor.set(0.5);
+        text.alpha = 0;
+        this.game.add.tween(text).to(
+            {alpha:1},
+            2000,
+            Phaser.Easing.Linear.In,
+            true
+        );
     }
 
 
