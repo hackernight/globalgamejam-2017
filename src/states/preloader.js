@@ -65,6 +65,7 @@ class Preloader extends Phaser.State {
         this.game.load.audio('music-level', 'assets/level.ogg');
         this.game.load.audio('music-gameover', 'assets/game_over.ogg');
         this.game.load.audio('music-victory', 'assets/victory.ogg');
+        this.game.load.audio('music-credits', 'assets/credits.ogg');
 
     }
 

@@ -22,11 +22,12 @@ class Credits extends Phaser.State {
     this.text.anchor.set(0.5);
 
     this.input.onDown.add(this.restartGame, this);
-    this.music = this.game.sound.play('music-intro', 0.4);
 
     this.game.time.events.loop(Phaser.Timer.SECOND * 2, () => {
           this.nextPage();
     }, this);
+
+    this.music = this.game.sound.play('music-credits', 0.4);
   }
 
   nextPage(){
