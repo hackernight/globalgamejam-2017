@@ -82,6 +82,7 @@ class Game extends Phaser.State {
     }
 
     update() {
+
         if (this.player.health > 0 && this.canAcceptInput == true){
         if (this.game.global.controlSettings.isChangingLeftAngle()) {
             this.left.setTargetAngle(this.game.global.controlSettings.newLeftAngle());
@@ -115,7 +116,6 @@ class Game extends Phaser.State {
     }
 
     playerEnemyCollision(player, enemy) {
-        this.game.time.slowMotion = 2.0;
         player.damage(1);
         this.background.tint = 0xff0000;
         this.game.time.events.add(Phaser.Timer.SECOND * .1, () => {
@@ -132,10 +132,7 @@ class Game extends Phaser.State {
         enemy.damage(1);
         if (enemy.health <= 1) {
 
-          this.game.time.slowMotion = 4.0;
-          if (this.player.health > 0){
-            this.game.time.events.add(Phaser.Timer.SECOND * 0.5, () =>{  this.game.time.slowMotion = 1.0}, this);
-          }
+
             const anim = enemy.animations.play('die', 12, false);
             enemy.body.checkCollision.none = true;
             anim.onComplete.add(() => {
@@ -147,7 +144,6 @@ class Game extends Phaser.State {
                 }
 
                 if (this.balloonsToKill == 1) {
-                    console.log("Spawning boss!");
                     this.enemies.add(new EnemyBoss(this.game, this.player));
                 }
             });

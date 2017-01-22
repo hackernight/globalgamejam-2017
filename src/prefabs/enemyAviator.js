@@ -28,7 +28,7 @@ class EnemyAviator extends Phaser.Sprite {
         }
 
         super(game, x, y, 'enemyAviator');
-        game.add.existing(this);
+        this.visible = false;
         game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.setSize(this.width - 200, this.height - 220, 100, 20);
 
@@ -47,7 +47,8 @@ class EnemyAviator extends Phaser.Sprite {
         this.game.time.events.loop(Phaser.Timer.SECOND * this.refreshrate, () => {
             this.makeMove();
         }, this);
-
+        game.add.existing(this);
+        this.visible = true;
         //and start out with a move, even if we're a slow balloon
         //this.makeMove();
     }

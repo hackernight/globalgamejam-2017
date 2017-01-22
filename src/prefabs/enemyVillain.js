@@ -28,7 +28,7 @@ class EnemyVillain extends Phaser.Sprite {
         }
 
         super(game, x, y, 'enemyVillain');
-        game.add.existing(this);
+        this.visible = false;
         game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.setSize(this.width - 280, this.height - 80, 160, 20);
 
@@ -48,6 +48,9 @@ class EnemyVillain extends Phaser.Sprite {
             this.makeMove();
         }, this);
 
+
+        game.add.existing(this);
+        this.visible = true;
         //and start out with a move, even if we're a slow balloon
         //this.makeMove();
     }

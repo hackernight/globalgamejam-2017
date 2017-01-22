@@ -28,8 +28,7 @@ class EnemyZepplin extends Phaser.Sprite {
         }
 
         super(game, x, y, 'enemyZepplin');
-        game.add.existing(this);
-
+        this.visible = false;
         this.animations.add('die');
         game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.setCircle(40, this.width/2 - 40, this.height/2 - 40);
@@ -48,6 +47,8 @@ class EnemyZepplin extends Phaser.Sprite {
             this.makeMove();
         }, this);
 
+        game.add.existing(this);
+        this.visible = true;
         //and start out with a move, even if we're a slow balloon
         //this.makeMove();
     }

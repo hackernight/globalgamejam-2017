@@ -28,7 +28,7 @@ class EnemyBoss extends Phaser.Sprite {
         }
 
         super(game, x, y, 'enemyBoss');
-        game.add.existing(this);
+        this.visible = false;
         game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.setSize(this.width - 100, this.height - 300, 50, 60);
 
@@ -50,6 +50,8 @@ class EnemyBoss extends Phaser.Sprite {
         this.game.time.events.loop(Phaser.Timer.SECOND * this.refreshrate, () => {
             this.makeMove();
         }, this);
+        game.add.existing(this);
+        this.visible = true;
     }
 
     update() {
