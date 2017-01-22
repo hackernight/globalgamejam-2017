@@ -7,6 +7,7 @@ class Menu extends Phaser.State {
 
     create() {
         //new BackgroundImage(this.game, 'introscreen');
+        this.game.stage.backgroundColor = "#ADD8E6";
         this.officerWaverton = new OfficerWaverton(this.game, 0, this.game.height * .5);
         this.balloon1 = new StaticPositionBalloon(this.game, this.game.width/2 + Math.random() * (this.game.width/2), Math.random() * this.game.height);
         this.balloon2 = new StaticPositionBalloon(this.game, this.game.width/2 + Math.random() * (this.game.width/2), Math.random() * this.game.height);
