@@ -37,7 +37,6 @@ class PlayerArm extends Phaser.Sprite {
       if(Math.abs(this.manditoryAngleMod) > 20 ) {
         this.wibbleDirection = -this.wibbleDirection;
       }
-      console.log(this.manditoryWibble);
 
       var compositeAngle = this.angle + this.manditoryAngleMod;
 
