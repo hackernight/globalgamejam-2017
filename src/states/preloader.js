@@ -36,7 +36,7 @@ class Preloader extends Phaser.State {
         this.game.load.image('midArmSection', 'assets/wavyman-arm.png');
         this.game.load.image('playerBody', 'assets/wavyman-body.png');
         this.game.load.image('projectile', 'assets/projectile.png');
-        this.game.load.image('heart', 'assets/heart.png');
+        this.game.load.spritesheet('heart', 'assets/heart-sheet.png', 64, 64, 8);
         this.game.load.image('introscreen', 'assets/introscreen.png');
 
         // Sound
@@ -54,6 +54,7 @@ class Preloader extends Phaser.State {
         this.game.load.audio('music-intro', 'assets/song__1_.ogg');
         this.game.load.audio('music-level', 'assets/level.ogg');
         this.game.load.audio('music-gameover', 'assets/game_over.ogg');
+        this.game.load.audio('music-victory', 'assets/victory.ogg');
 
     }
 
