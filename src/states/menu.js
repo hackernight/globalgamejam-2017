@@ -19,7 +19,7 @@ class Menu extends Phaser.State {
             align: 'center'
         };
         const credittext = this.add.text(this.game.width * 0.5, this.game.height * 0.9,
-                  'Press X to view credits\n Press A to configure controls', style);
+                  'Press X to view credits\n Press A for input options', style);
         credittext.anchor.setTo(0.5, 0.5);
 
 
@@ -47,9 +47,12 @@ class Menu extends Phaser.State {
       if (this.game.global.controlSettings.shouldShootRight() || this.game.global.controlSettings.shouldShootLeft()) {
           this.startGame();
       }
-        if (this.game.global.controlSettings.isPressingX()) {
+      if (this.game.global.controlSettings.isPressingX()) {
             this.game.state.start('credits');
-        }
+      }
+      if (this.game.global.controlSettings.isPressingA()) {
+            this.game.state.start('controls');
+      }
     }
   }
 

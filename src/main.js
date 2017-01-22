@@ -4,6 +4,7 @@ import Menu from './states/menu';
 import Preloader from './states/preloader';
 import Gameover from './states/gameover';
 import Credits from './states/credits';
+import Controls from './states/controls';
 
 
 const game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'globalgamejam-2017-game');
@@ -14,5 +15,6 @@ game.state.add('menu', new Menu());
 game.state.add('preloader', new Preloader());
 game.state.add('gameover', new Gameover());
 game.state.add('credits', new Credits());
+game.state.add('controls', new Controls());
 
 game.state.start('boot');
