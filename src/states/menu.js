@@ -60,6 +60,7 @@ class Menu extends Phaser.State {
     }
 
     shutdown() {
+        this.officerWaverton.destroy();
         this.music.stop();
     }
 
