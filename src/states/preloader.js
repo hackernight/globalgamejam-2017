@@ -32,6 +32,7 @@ class Preloader extends Phaser.State {
 
         // Splash screens
         this.game.load.image('stl', 'assets/MadeInSTL.png');
+        this.game.load.spritesheet('studio', 'assets/studio-logo-sheet.png', 128, 128);
         // this.game.global.splashScreens = ['stl'];
 
         // other Art
