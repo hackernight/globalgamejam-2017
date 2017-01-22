@@ -4,7 +4,6 @@ class Preloader extends Phaser.State {
         super();
         this.asset = null;
         this.ready = false;
-
     }
 
     preload() {
@@ -20,7 +19,7 @@ class Preloader extends Phaser.State {
 
     update() {
         if (this.ready) {
-            this.game.state.start('menu');
+            this.game.state.start('splashScreen');
         }
     }
 
@@ -30,6 +29,10 @@ class Preloader extends Phaser.State {
         this.game.load.spritesheet('enemyVillain', 'assets/VerticalVillianExp1-sheet-627-723.png', 627, 723);
         this.game.load.spritesheet('enemyZepplin', 'assets/ZealousZepplinExp1-sheet-627-547.png', 627, 547);
         this.game.load.spritesheet('enemyBoss', 'assets/BigBossBalloon1-sheet-755-680.png', 755, 680);
+
+        // Splash screens
+        this.game.load.image('stl', 'assets/MadeInSTL.png');
+        // this.game.global.splashScreens = ['stl'];
 
         // other Art
         this.game.load.image('playerArm', 'assets/wavyman-arm.png');
